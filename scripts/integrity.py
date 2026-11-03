@@ -42,6 +42,8 @@ def write(root: Path = ROOT, files=WATCHED, manifest: Path = MANIFEST) -> int:
     return 0
 
 
+# ── SAFEGUARD S18 · integrity of model, adapter and prompts (LLM03) ── tested by: F1
+#    SHA-256 of the evaluated files; a swapped adapter or an edited prompt is reported and the run should stop.
 def check(root: Path = ROOT, manifest: Path = MANIFEST) -> list[str]:
     """Returns the files that changed or disappeared (empty list: all intact)."""
     bad = []

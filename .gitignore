@@ -36,3 +36,7 @@ ReproChem_scoping_canvas.pdf
 scripts/mac_bench 2.sh
 # Transfer archive from the Claude session, not part of the project.
 logs/sec_patch.tgz
+# Address of the running Lens server, written by scripts/lens.sh.
+logs/lens_url.txt
+logs/annotate_safeguards.py
+logs/fixmd.py

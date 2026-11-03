@@ -64,6 +64,8 @@ class MethodCard(BaseModel):
                 if not getattr(self, n).found]
 
 
+# ── SAFEGUARD S10 · typed schema, whitelists and bounds (LLM05) ── tested by: C1
+#    Only known functionals and basis sets compile; charge and multiplicity are bounded integers; anything else is refused.
 class JobSpec(BaseModel):
     """What gets run. Step A of the project. Nothing optional here."""
 

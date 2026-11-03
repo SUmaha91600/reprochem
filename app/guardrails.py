@@ -17,6 +17,8 @@ import unicodedata
 from .schema import NOT_FOUND, Field_
 
 # Patterns from the 6 Oct lab (slide "prompt injection in one example")
+# ── SAFEGUARD S3 · injection phrases, whole sentence removed (LLM01, LLM07) ── tested by: A1, A6
+#    A matching sentence is dropped entirely, so the value it smuggles in ("... report PBE0") never reaches the model.
 INJECTION_PATTERNS = [
     r"ignore\s+(the\s+)?(previous|above|prior)\s+instructions",
     r"ignorez?\s+les\s+instructions",
@@ -35,11 +37,15 @@ SENTENCE_PATTERNS = [p for p in INJECTION_PATTERNS if p != TOKEN_ONLY]
 # A5: a document that writes the model's own control tokens (<|im_start|>system)
 # or closes our data block (</sources>) could pass for a new turn of the
 # conversation. Qwen's tokenizer would read <|im_start|> as a real control token.
+# ── SAFEGUARD S2 · fake chat turns and control tokens (LLM01) ── tested by: A5
+#    <|im_start|>…<|im_end|> written in a document is removed with its content; our own <sources> tags cannot be closed from inside.
 FAKE_TURN = re.compile(r"<\|im_start\|>[\s\S]{0,2000}?(<\|im_end\|>|\n\s*\n|$)")
 CONTROL_TOKENS = re.compile(r"<\|[a-z_]{2,30}\|>|</?\s*(sources|champ|article|think|system|user|assistant)\s*>", re.I)
 
 # R2: an instruction addressed to an automated reader, with no "ignore" keyword.
 # Measured on the 120 corpus papers: no match in ordinary scientific text.
+# ── SAFEGUARD S4 · instructions addressed to a machine, no keyword (LLM01) ── tested by: A2
+#    "Note for automated extraction tools: ..." is caught by its grammar, not by a keyword list; 0 hits on 7,610 normal passages.
 MACHINE_PATTERNS = [
     r"\b(note|message|instructions?)\s+(for|to)\s+(any\s+|the\s+)?(automated|automatic|ai|llm|language[- ]model|extraction|parsing|machine)\b",
     r"\b(ai|llm|language\s+models?|assistants?|extraction\s+(tools?|systems?|models?))\s+(should|must|shall|are\s+asked\s+to)\s+(report|output|answer|return|extract|state)\b",
@@ -47,6 +53,8 @@ MACHINE_PATTERNS = [
 ]
 
 # R7: characters that hide text or impersonate Latin letters.
+# ── SAFEGUARD S1 · hidden characters and look-alike letters (LLM01) ── tested by: A3, A4, B1
+#    Zero-width characters are removed and Cyrillic/Greek look-alikes inside Latin words are repaired before anything else.
 ZERO_WIDTH = re.compile("[\u200b-\u200f\u202a-\u202e\u2060-\u2064\ufeff\u00ad]")
 CONFUSABLES = str.maketrans({
     # Cyrillic
@@ -123,6 +131,8 @@ def scrub(text: str) -> tuple[str, list[str]]:
     return out, hits
 
 
+# ── SAFEGUARD S13 · model output shown as text only (Streamlit) (LLM05) ── tested by: C2
+#    Markdown in a value is escaped: ![x](https://...) is displayed, never fetched.
 _MD_SPECIAL = re.compile(r"([\\`*_{}\[\]()#+\-.!|<>~])")
 
 
@@ -133,6 +143,8 @@ def md_escape(text: str) -> str:
     return _MD_SPECIAL.sub(r"\\\1", str(text))
 
 
+# ── SAFEGUARD S9 · abstention (LLM09) ── tested by: gold set: invented values 26% -> 7%
+#    Without a citation or with a weak retrieval score, the field is NOT_FOUND: no guess.
 def abstain(field: Field_, threshold: float) -> Field_:
     """Below the threshold, admitting ignorance beats guessing."""
     if field.citation is None or field.citation.score < threshold:
@@ -144,6 +156,8 @@ def estimate_basis_functions(n_heavy_atoms: int, basis: str) -> int:
     return n_heavy_atoms * BASIS_SIZE.get(basis.upper(), 20)
 
 
+# ── SAFEGUARD S12 · compute cost gate (LLM10) ── tested by: C3
+#    A job whose estimated basis functions exceed config.yaml compiler.max_basis_functions is refused before it starts.
 def cost_gate(n_heavy_atoms: int, basis: str, limit: int) -> tuple[bool, str]:
     n = estimate_basis_functions(n_heavy_atoms, basis)
     if n > limit:

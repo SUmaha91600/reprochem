@@ -64,6 +64,8 @@ def main() -> int:
     args = ap.parse_args()
 
     T = P.TCFG
+    # ── SAFEGUARD S15 · internal documents never sent to an API (LLM02) ── tested by: E1
+    #    Refused unless config.yaml teacher.allow_internal is set, which requires written authorisation.
     if args.internal and not T.get("allow_internal"):
         print("Refused: teacher.allow_internal is false in config.yaml.\n"
               "Internal documents go to the API only with written authorisation, "
@@ -95,6 +97,8 @@ def main() -> int:
             print(f"[{i}/{len(docs)}] {pid}: no markdown, skipped", file=sys.stderr)
             continue
         md = md_path.read_text(encoding="utf-8", errors="replace")
+        # ── SAFEGUARD S16 · pseudonymisation before any API call (LLM02) ── tested by: E2
+        #    Authors, e-mails, phones, ORCID, URLs and names are replaced; the mapping stays on the machine (app/anonymize.py).
         if T.get("anonymize", True):
             # Nothing personal leaves the machine: authors, affiliations, e-mails,
             # phones, URLs and titled names are pseudonymised first (app/anonymize.py).

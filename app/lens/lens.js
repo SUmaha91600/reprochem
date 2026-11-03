@@ -387,5 +387,11 @@
 
   FX.sky();
   FX.deco($("deco"));
+  // Opened from the extraction app (ui.py, "explain" link): ?q=<field> <value>
+  // goes through the same router as speech; the text is only ever shown as text.
+  // ── SAFEGUARD S13 · link text shown as text only (Lens) (LLM05) ── tested by: D2
+  //    The ?q= text goes through the router and is displayed with textContent: an <img onerror> stays characters.
+  const q0 = new URLSearchParams(location.search).get("q");
+  if (q0) setTimeout(() => handle(q0.slice(0, 200)), 300);
   window.LENS = { open, handle, route };            // for tests
 })();

@@ -14,6 +14,8 @@ VIS="--private"; [[ "${1:-}" == "--public" ]] && VIS="--public"
 REPO="${REPO:-reprochem}"
 
 # 1. No secrets, ever.
+# ── SAFEGUARD S17 · no key ever published (LLM02) ── tested by: E3
+#    The push is refused if anything looks like an API key or if .env is staged; .env is in .gitignore.
 if grep -rIlE "(gsk_[A-Za-z0-9]{20,}|hf_[A-Za-z0-9]{20,}|sk-ant-[A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9]{32,})" \
      --exclude-dir=.git --exclude-dir=.venv --exclude-dir=adapters --exclude-dir=models --exclude-dir=papers . ; then
   echo "Something that looks like an API key is in the files listed above. Nothing was published."; exit 1

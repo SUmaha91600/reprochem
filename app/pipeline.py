@@ -81,6 +81,8 @@ def _prompt(name: str) -> str:
 SECTION_RE = re.compile(r"^#{1,3}\s+(.+)$", re.M)
 
 
+# ── SAFEGUARD S6 · bounded context (LLM10) ── tested by: C4
+#    A passage is cut at 8,000 characters and a title at 300: a 5 MB document still gives prompts of about 12,000 characters.
 MAX_CHUNK_CHARS = 8000   # corpus maximum 7,808 (120 papers, 7,610 passages)
 MAX_TITLE_CHARS = 300    # corpus maximum 202
 
@@ -139,6 +141,8 @@ def retrieve(retriever: Retriever, field: str, mode: str = "rerank"):
 
 
 # -------------------------------------------------------------- 3 · extract
+# ── SAFEGUARD S5 · documents are data, never instructions (LLM01) ── tested by: A1-A6
+#    Every passage goes through scrub() and is wrapped in <sources>; the system prompt is a separate message the document cannot edit.
 def extract_messages(field: str, hits, for_teacher: bool = False) -> tuple[list[dict], list[str]]:
     """The exact messages sent for one field. One function serves the student,
     the teacher and the training set: distillation only makes sense if the
@@ -242,9 +246,13 @@ def _json_block(text: str) -> dict:
 # A setting is a few words ("6-311++G(d,p)", "Gaussian 16 B.01"): 24 characters
 # at most in every report so far. Anything longer is not a setting, it is text
 # the model was pushed to output (a system prompt, a paragraph): NOT_FOUND (A6).
+# ── SAFEGUARD S7 · a value is a setting, not a paragraph (LLM07) ── tested by: A6
+#    Any answer over 60 characters (a leaked prompt, a pasted paragraph) becomes NOT_FOUND.
 MAX_VALUE_CHARS = 60
 
 
+# ── SAFEGUARD S8 · citation check on every answer (LLM09) ── tested by: B3
+#    The quote must be in the passages and the value in the quote; otherwise the screen says 'quote not found, check by hand'.
 def citation_verified(value: str, quote: str, hits) -> bool:
     """The quote is in the passages the model read, and the value is in the
     quote. The same checks the evaluation makes, now made on every answer."""
@@ -282,6 +290,8 @@ def extract(retriever: Retriever, paper_id: str, mode: str = "rerank") -> Method
                                   abstain_threshold(getattr(retriever, "last_mode", mode))).model_dump()
     if injections:
         # feeds docs/red_team_log.md: every attempt seen in production is logged
+        # ── SAFEGUARD S21 · audit log of injection attempts (LLM01) ── tested by: docs/injections.log
+        #    Every neutralised attempt is written with its paper id, for review.
         with open(os.path.join(ROOT, "docs", "injections.log"), "a") as fh:
             for hit in injections:
                 fh.write(f"{paper_id}\t{hit}\n")

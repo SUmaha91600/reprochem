@@ -1,0 +1,258 @@
+{
+  "router_accuracy": [
+    20,
+    20
+  ],
+  "premise_cases": [
+    12,
+    12
+  ],
+  "premises_caught": [
+    6,
+    6
+  ],
+  "false_alarms": [
+    0,
+    6
+  ],
+  "sentences": [
+    {
+      "sentence": "Explain the BP86 basis set to me as a video.",
+      "expected": "bp86",
+      "routed": "bp86",
+      "video": true,
+      "ok": true
+    },
+    {
+      "sentence": "What is B3LYP?",
+      "expected": "b3lyp",
+      "routed": "b3lyp",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "What does 6-311++G(d,p) mean?",
+      "expected": "b6311",
+      "routed": "b6311",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "Explain the basis set.",
+      "expected": "b6311",
+      "routed": "b6311",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "Why add a dispersion correction?",
+      "expected": "dispersion",
+      "routed": "dispersion",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "How is the solvent handled?",
+      "expected": "solvatation",
+      "routed": "solvatation",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "What is the multiplicity?",
+      "expected": "etat",
+      "routed": "etat",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "Which software packages?",
+      "expected": "logiciel",
+      "routed": "logiciel",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "What is a functional?",
+      "expected": "fonctionnelle",
+      "routed": "fonctionnelle",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "How does ReproChem work?",
+      "expected": "reprochem",
+      "routed": "reprochem",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "Explain the geometry optimization.",
+      "expected": "optimisation",
+      "routed": "optimisation",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "Explain B3LYP to me as a video.",
+      "expected": "b3lyp",
+      "routed": "b3lyp",
+      "video": true,
+      "ok": true
+    },
+    {
+      "sentence": "Tell me about the BP86 functional.",
+      "expected": "bp86",
+      "routed": "bp86",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "Why do people still use B3LYP?",
+      "expected": "b3lyp",
+      "routed": "b3lyp",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "What is the D3 correction from Grimme?",
+      "expected": "dispersion",
+      "routed": "dispersion",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "Is the gas phase enough or do we need a solvent model?",
+      "expected": "solvatation",
+      "routed": "solvatation",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "How do you choose between singlet and triplet?",
+      "expected": "etat",
+      "routed": "etat",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "Is Gaussian better than ORCA?",
+      "expected": "logiciel",
+      "routed": "logiciel",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "What does density functional theory approximate?",
+      "expected": "fonctionnelle",
+      "routed": "fonctionnelle",
+      "video": false,
+      "ok": true
+    },
+    {
+      "sentence": "Explain the distillation in your project.",
+      "expected": "reprochem",
+      "routed": "reprochem",
+      "video": false,
+      "ok": true
+    }
+  ],
+  "premises": [
+    {
+      "sentence": "Explain the BP86 basis set",
+      "expected": "bp86",
+      "routed": "bp86",
+      "premise_expected": true,
+      "premise_shown": true,
+      "ok": true
+    },
+    {
+      "sentence": "What is the B3LYP basis?",
+      "expected": "b3lyp",
+      "routed": "b3lyp",
+      "premise_expected": true,
+      "premise_shown": true,
+      "ok": true
+    },
+    {
+      "sentence": "Which functional is 6-311++G(d,p)?",
+      "expected": "b6311",
+      "routed": "b6311",
+      "premise_expected": true,
+      "premise_shown": true,
+      "ok": true
+    },
+    {
+      "sentence": "Explain the def2 functional",
+      "expected": "b6311",
+      "routed": "b6311",
+      "premise_expected": true,
+      "premise_shown": true,
+      "ok": true
+    },
+    {
+      "sentence": "Tell me about the BP86 base",
+      "expected": "bp86",
+      "routed": "bp86",
+      "premise_expected": true,
+      "premise_shown": true,
+      "ok": true
+    },
+    {
+      "sentence": "Is cc-pVTZ a good functional?",
+      "expected": "b6311",
+      "routed": "b6311",
+      "premise_expected": true,
+      "premise_shown": true,
+      "ok": true
+    },
+    {
+      "sentence": "Explain the BP86 functional",
+      "expected": "bp86",
+      "routed": "bp86",
+      "premise_expected": false,
+      "premise_shown": false,
+      "ok": true
+    },
+    {
+      "sentence": "What is the B3LYP functional?",
+      "expected": "b3lyp",
+      "routed": "b3lyp",
+      "premise_expected": false,
+      "premise_shown": false,
+      "ok": true
+    },
+    {
+      "sentence": "Which basis set is 6-311++G(d,p)?",
+      "expected": "b6311",
+      "routed": "b6311",
+      "premise_expected": false,
+      "premise_shown": false,
+      "ok": true
+    },
+    {
+      "sentence": "Explain the def2 basis set",
+      "expected": "b6311",
+      "routed": "b6311",
+      "premise_expected": false,
+      "premise_shown": false,
+      "ok": true
+    },
+    {
+      "sentence": "Tell me about BP86",
+      "expected": "bp86",
+      "routed": "bp86",
+      "premise_expected": false,
+      "premise_shown": false,
+      "ok": true
+    },
+    {
+      "sentence": "Is cc-pVTZ a good basis set?",
+      "expected": "b6311",
+      "routed": "b6311",
+      "premise_expected": false,
+      "premise_shown": false,
+      "ok": true
+    }
+  ]
+}

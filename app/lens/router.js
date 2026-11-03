@@ -8,6 +8,8 @@
   const C = window.LENS_CONCEPTS;
   const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’']/g, " ");
 
+  // ── SAFEGUARD S14 · closed voice router (LLM01, LLM06) ── tested by: D1
+  //    A sentence can only open one of 10 hand-checked concepts, or nothing: no model, nothing to jailbreak.
   function route(text) {
     const t = " " + norm(text) + " ";
     const video = /video|film|animat|en image/.test(t);

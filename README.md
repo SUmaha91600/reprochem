@@ -140,3 +140,7 @@ including the lines an assistant wrote.
 the student becomes the core of an agent that reads a new report, flags
 missing settings, launches the calculation and compares the result with the
 reported value.
+
+## Safeguards
+
+Every protection is marked in the code with a `SAFEGUARD Sx` comment; the full list, with the attack that tests each one, is in [docs/SAFEGUARDS.md](docs/SAFEGUARDS.md).

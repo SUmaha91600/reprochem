@@ -9,7 +9,8 @@
 # Offline, the text box and the buttons at the bottom do the same job.
 # Voice benchmark: the same address + /voicetest.html
 set -euo pipefail
-cd "$(dirname "$0")/../app/lens"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT/app/lens"
 PORT="${PORT:-8765}"
 # Another application may already listen on the port: take the next free one,
 # otherwise the browser would open that other application.
@@ -27,6 +28,7 @@ if ! kill -0 "$SRV" 2>/dev/null; then
   echo "the Lens server could not start on port $PORT" >&2; exit 1
 fi
 URL="http://localhost:$PORT"
+mkdir -p "$ROOT/logs" && echo "$URL" > "$ROOT/logs/lens_url.txt"   # read by app/ui.py ("explain" links)
 PAGE="${1:-}"                       # bash scripts/lens.sh voicetest.html
 if [[ -d "/Applications/Google Chrome.app" ]]; then open -a "Google Chrome" "$URL/$PAGE"
 else open "$URL/$PAGE"; fi

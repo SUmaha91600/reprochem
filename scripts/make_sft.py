@@ -59,6 +59,8 @@ def flat(t: str) -> str:
     return re.sub(r"\s+", " ", t).strip().lower()
 
 
+# ── SAFEGUARD S19 · poisoned training labels rejected (LLM04) ── tested by: B4
+#    A teacher answer is kept only if its quote is in the passages and its value in its quote.
 def label_check(value: str, quote: str, sources: str) -> str | None:
     """Rejection filter for one teacher answer (also replayed by
     scripts/security_eval.py, attack B4: a poisoned label). None = kept."""
@@ -98,6 +100,8 @@ def main() -> int:
         return 1
     cards = {(c["paper_id"], c["model"]): c["card"] for c in read_jsonl(labels / "doc_cards.jsonl")}
 
+    # ── SAFEGUARD S19 · gold papers never trained on (LLM04) ── tested by: gold set integrity
+    #    Every gold-set paper is excluded from the training data, so the score measures generalisation.
     test_ids = set()
     for t in args.testsets:
         test_ids |= {r["paper_id"] for r in read_jsonl(ROOT / t)}

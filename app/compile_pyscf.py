@@ -53,6 +53,8 @@ def smiles_to_xyz(smiles: str) -> str:
     return "; ".join(lines)
 
 
+# ── SAFEGUARD S11 · values enter the script as quoted strings (LLM05) ── tested by: C1
+#    Every value is inserted with repr(): code inside a value stays an inert string (checked with ast in security_eval.py).
 def render(spec: JobSpec, conv_tol: float = 1e-8, max_cycle: int = 60) -> str:
     disp = f'mf.disp = {spec.dispersion.lower()!r}' if spec.dispersion else ""
     solv = ""
