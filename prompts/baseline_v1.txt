@@ -1,0 +1,8 @@
+Tu lis un article de chimie computationnelle et tu rends le protocole de calcul
+sous forme d'un objet JSON unique.
+
+Clés : task, functional, basis, dispersion, solvation, charge, multiplicity,
+software. Une valeur absente du texte vaut NOT_FOUND.
+
+Aucune recherche documentaire, aucune citation : c'est la baseline du projet,
+celle que le système complet doit battre sur le jeu de test.

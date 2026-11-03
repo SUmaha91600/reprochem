@@ -1,0 +1,36 @@
+# Secrets and local environments: never committed.
+.env
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Run outputs that are regenerated (the final eval/report_*.json are kept on purpose).
+eval/report.json
+docs/injections.log
+data/_to_delete/
+
+# Papers themselves are not redistributed: data/corpus_manifest.csv lists them.
+data/papers/
+data/annotation_sheet.csv
+
+# Internal documents and their gold set stay on the machine.
+data/internal/
+# Teacher API cache (the labels themselves are versioned in data/teacher/labels/).
+data/teacher/cache/
+# Model weights: LoRA adapters (retrained in about 2 hours) and the 4-bit base model.
+adapters/
+models/
+
+# Early French working documents, superseded by the English README, docs/ and PITCH_EN.md.
+PITCH.md
+PLAN.md
+pdf/
+ReproChem_protocole_collecte.pdf
+ReproChem_scoping_canvas.pdf
+
+# Versioned on purpose: uv.lock, data/corpus_manifest.csv, eval/testset.jsonl, data/sft/, data/teacher/labels/
+
+# Local clutter
+.Rhistory
+scripts/mac_bench 2.sh

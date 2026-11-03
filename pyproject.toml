@@ -1,0 +1,48 @@
+[project]
+name = "reprochem"
+version = "0.1.0"
+description = "Du protocole publié au calcul qui tourne : extraction de fiches méthode citées et compilation en jobs PySCF exécutables."
+requires-python = ">=3.11,<3.14"
+
+# Noyau : s'installe en quelques secondes, suffit pour tout faire tourner avec
+# Qwen en local et la récupération BM25.
+dependencies = [
+    "openai==3.26.0",
+    "pydantic==2.13.5",
+    "pyyaml==6.0.3",
+    "python-dotenv==1.2.4",
+    "streamlit==1.65.0",
+    "openpyxl>=3.1.5",
+]
+
+[project.optional-dependencies]
+# Conversion PDF -> markdown. Léger, et c'est tout ce qu'il faut pour la collecte.
+convert = [
+    "pymupdf4llm==1.28.2",
+]
+# Cross-encoder du mode rerank. Tire torch : ~500 Mo. Les embeddings n'en ont
+# pas besoin, ils passent par Ollama.
+rerank = [
+    "sentence-transformers==5.1.1",
+]
+# Ancien nom, gardé pour ne pas casser les commandes déjà notées quelque part.
+retrieval = ["reprochem[convert,rerank]"]
+# Chimie. Roues macOS arm64 disponibles pour les deux : rien à compiler.
+chem = [
+    "rdkit==2026.3.6",
+    "pyscf==2.14.0",
+]
+full = ["reprochem[convert,rerank,chem]"]
+train = [
+    "mlx-lm>=0.29.1 ; sys_platform == 'darwin'",
+]
+
+# Pas de [build-system] : uv traite le dépôt comme un projet « virtuel ». Il gère
+# l'environnement et les dépendances sans installer le code, qui reste importé
+# depuis l'arborescence. Un ajout de fichier est immédiatement pris en compte.
+
+[tool.uv]
+# uv.lock est versionné : c'est lui qui rend la démo reproductible en novembre,
+# pas les versions épinglées ci-dessus. `uv sync --locked` échoue si les deux
+# divergent, ce qui est exactement ce qu'on veut en intégration continue.
+default-groups = []

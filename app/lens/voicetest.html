@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lens voice benchmark</title>
+<!--
+  Voice benchmark for ReproChem Lens: word error rate (WER), intent accuracy and
+  recognition latency, on 20 fixed sentences, in two conditions (quiet room,
+  background noise). Same recognizer (Chrome Web Speech API, en-US) and same
+  router (router.js) as the demo.
+
+  Open http://localhost:8765/voicetest.html (bash scripts/lens.sh), read each
+  sentence while holding Space, then "Download results" and move the file to
+  eval/voice_results.json. scripts/figures.py recomputes every number from the
+  raw transcripts: nothing computed here is trusted.
+-->
+<style>
+  :root{--bg:#0b0826;--panel:#17123d;--ink:#f5f3ff;--ink2:#c9c3f0;--ink3:#8a83b8;--teal:#2ee6d6;--good:#0ca30c;--bad:#d03b3b;
+        --f:system-ui,-apple-system,"Segoe UI",sans-serif;--m:ui-monospace,Menlo,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f)}
+  .wrap{max-width:980px;margin:0 auto;padding:20px 16px 40px}
+  h1{font-size:20px;margin:0 0 4px} .sub{color:var(--ink3);font-size:13px;margin:0 0 18px}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  button,select{background:var(--panel);border:1px solid #2f2770;border-radius:10px;padding:8px 14px;color:var(--ink);font:inherit;cursor:pointer}
+  button.main{background:linear-gradient(90deg,#0ea5b7,#6d3fe0);border:0;font-weight:600}
+  button:disabled{opacity:.4;cursor:default}
+  .card{background:var(--panel);border-radius:16px;padding:22px;margin-bottom:14px}
+  .n{font-family:var(--m);color:var(--ink3);font-size:13px}
+  .ref{font-size:28px;line-height:1.3;margin:8px 0 14px;font-weight:600}
+  .hyp{font-family:var(--m);font-size:16px;color:var(--ink2);min-height:24px}
+  .live{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--ink3);margin-right:8px;vertical-align:middle}
+  .live.on{background:#ff4d4d;box-shadow:0 0 12px #ff4d4d}
+  .verdict{margin-top:10px;font-size:14px;color:var(--ink2)} .ok{color:#3ad13a} .ko{color:#ff6b6b}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid #251f55;vertical-align:top}
+  th{color:var(--ink3);font-weight:500} td.m{font-family:var(--m)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+  .stat{background:var(--panel);border-radius:12px;padding:12px 14px}
+  .stat b{display:block;font-size:22px;margin-top:4px} .stat span{color:var(--ink3);font-size:12px}
+  kbd{font-family:var(--m);background:#251f55;border-radius:6px;padding:2px 6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Lens voice benchmark</h1>
+  <p class="sub">20 fixed sentences × condition. Hold <kbd>Space</kbd>, read the sentence as it is written, release.
+     Measures: word error rate, intent accuracy (did the right concept open?), latency from releasing Space to the final transcript.</p>
+
+  <div class="bar">
+    <label>Condition
+      <select id="cond">
+        <option value="quiet">quiet room</option>
+        <option value="noise">background noise (café sound from a phone, ~1 m)</option>
+      </select>
+    </label>
+    <button id="prev">◀ Previous</button>
+    <button id="next">Next ▶</button>
+    <button id="redo">Redo this one</button>
+    <button class="main" id="dl">Download results</button>
+    <button id="reset">Clear all</button>
+  </div>
+
+  <div class="card">
+    <div class="n" id="pos"></div>
+    <div class="ref" id="ref"></div>
+    <div class="hyp"><span class="live" id="live"></span><span id="hyp">Hold Space and read.</span></div>
+    <div class="verdict" id="verdict"></div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <table>
+    <thead><tr><th>#</th><th>Condition</th><th>Reference</th><th>Heard</th><th>WER</th><th>Concept</th><th>Latency</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+</div>
+
+<script src="concepts.js"></script>
+<script src="router.js"></script>
+<script>
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const R = window.LensRouter;
+
+  // Fixed list. The first 12 are the sentences of the presentation runbook;
+  // the expected concept is what the router must open.
+  const SENTENCES = [
+    ["Explain the BP86 basis set to me as a video.", "bp86"],
+    ["What is B3LYP?", "b3lyp"],
+    ["What does 6-311++G(d,p) mean?", "b6311"],
+    ["Explain the basis set.", "b6311"],
+    ["Why add a dispersion correction?", "dispersion"],
+    ["How is the solvent handled?", "solvatation"],
+    ["What is the multiplicity?", "etat"],
+    ["Which software packages?", "logiciel"],
+    ["What is a functional?", "fonctionnelle"],
+    ["How does ReproChem work?", "reprochem"],
+    ["Explain the geometry optimization.", "optimisation"],
+    ["Explain B3LYP to me as a video.", "b3lyp"],
+    ["Tell me about the BP86 functional.", "bp86"],
+    ["Why do people still use B3LYP?", "b3lyp"],
+    ["What is the D3 correction from Grimme?", "dispersion"],
+    ["Is the gas phase enough or do we need a solvent model?", "solvatation"],
+    ["How do you choose between singlet and triplet?", "etat"],
+    ["Is Gaussian better than ORCA?", "logiciel"],
+    ["What does density functional theory approximate?", "fonctionnelle"],
+    ["Explain the distillation in your project.", "reprochem"],
+  ];
+
+  // Same normalisation as scripts/figures.py (wer_norm).
+  function words(s) {
+    s = s.toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "");
+    s = s.replace(/[-/]/g, " ").replace(/[^a-z0-9+ ]/g, " ");
+    s = s.replace(/([a-z])(?=[0-9])/g, "$1 ").replace(/([0-9])(?=[a-z])/g, "$1 ");
+    return s.split(/\s+/).filter(Boolean);
+  }
+  function wer(ref, hyp) {
+    const a = words(ref), b = words(hyp), n = a.length, m = b.length;
+    const D = Array.from({ length: n + 1 }, (_, i) => Array.from({ length: m + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)));
+    for (let i = 1; i <= n; i++) for (let j = 1; j <= m; j++)
+      D[i][j] = Math.min(D[i - 1][j] + 1, D[i][j - 1] + 1, D[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return { errors: D[n][m], n };
+  }
+
+  let items = [];
+  try { items = JSON.parse(localStorage.getItem("lens-voicetest") || "[]"); } catch (_) { items = []; }
+  const persist = () => { try { localStorage.setItem("lens-voicetest", JSON.stringify(items)); } catch (_) {} };
+  let idx = 0;
+
+  function cond() { return $("cond").value; }
+  function find(i, c) { return items.find(x => x.idx === i && x.condition === c); }
+  function firstTodo() {
+    const k = SENTENCES.findIndex((_, i) => !find(i, cond()));
+    return k < 0 ? SENTENCES.length - 1 : k;
+  }
+
+  function show() {
+    const [ref] = SENTENCES[idx];
+    $("pos").textContent = `Sentence ${idx + 1} / ${SENTENCES.length} · condition: ${cond()}`;
+    $("ref").textContent = ref;
+    const it = find(idx, cond());
+    $("hyp").textContent = it ? it.hypothesis || "(nothing heard)" : "Hold Space and read.";
+    $("verdict").innerHTML = it ? verdictHtml(it) : "";
+    table(); stats();
+  }
+  function verdictHtml(it) {
+    const w = wer(it.reference, it.hypothesis || "");
+    const good = it.routed === it.expected;
+    return `WER ${(100 * w.errors / w.n).toFixed(0)}% (${w.errors}/${w.n} words) · concept `
+      + `<span class="${good ? "ok" : "ko"}">${it.routed || "none"} ${good ? "✓" : "✗ expected " + it.expected}</span>`
+      + (it.latency_ms != null ? ` · ${it.latency_ms} ms` : "");
+  }
+  function table() {
+    $("rows").innerHTML = items.slice().sort((a, b) => a.condition.localeCompare(b.condition) || a.idx - b.idx).map(it => {
+      const w = wer(it.reference, it.hypothesis || "");
+      const good = it.routed === it.expected;
+      return `<tr><td>${it.idx + 1}</td><td>${it.condition}</td><td>${it.reference}</td><td class="m">${it.hypothesis || "—"}</td>`
+        + `<td>${(100 * w.errors / w.n).toFixed(0)}%</td><td class="${good ? "ok" : "ko"}">${it.routed || "none"}</td>`
+        + `<td>${it.latency_ms ?? "—"} ms</td></tr>`;
+    }).join("");
+  }
+  function stats() {
+    const by = {};
+    items.forEach(it => (by[it.condition] ||= []).push(it));
+    $("stats").innerHTML = Object.entries(by).map(([c, xs]) => {
+      let e = 0, n = 0, ok = 0; const lat = [];
+      xs.forEach(it => { const w = wer(it.reference, it.hypothesis || ""); e += w.errors; n += w.n; ok += it.routed === it.expected; if (it.latency_ms != null) lat.push(it.latency_ms); });
+      lat.sort((a, b) => a - b);
+      return `<div class="stat"><span>${c} · ${xs.length}/${SENTENCES.length} sentences</span><b>WER ${(100 * e / Math.max(1, n)).toFixed(1)}%</b>`
+        + `<span>concept right ${ok}/${xs.length} · median ${lat.length ? lat[lat.length >> 1] : "—"} ms</span></div>`;
+    }).join("");
+  }
+
+  // ------------------------------------------------------------ recognition
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let rec = null, listening = false, tRelease = null, tSpeechEnd = null, done = false, last = "";
+  if (!SR) { $("hyp").textContent = "Speech recognition unavailable: use Chrome."; }
+  else {
+    rec = new SR();
+    rec.lang = "en-US"; rec.interimResults = true; rec.continuous = false; rec.maxAlternatives = 1;
+    rec.onspeechend = () => { tSpeechEnd = performance.now(); };
+    rec.onresult = e => {
+      let txt = "", final = false;
+      for (const r of e.results) { txt += r[0].transcript; final = final || r.isFinal; }
+      last = txt; $("hyp").textContent = txt;
+      if (final && !done) { done = true; save(txt, performance.now()); }
+    };
+    rec.onend = () => {
+      listening = false; $("live").classList.remove("on");
+      if (!done) { done = true; save(last, null); }
+    };
+    rec.onerror = e => { $("verdict").textContent = "mic: " + e.error; };
+  }
+  function save(txt, tFinal) {
+    const [ref, expected] = SENTENCES[idx];
+    const t0 = [tRelease, tSpeechEnd].filter(x => x != null);
+    const end = t0.length ? Math.min(...t0) : null;
+    const it = {
+      idx, condition: cond(), reference: ref, hypothesis: txt.trim(), expected,
+      routed: txt.trim() ? R.route(txt).id : null,
+      latency_ms: tFinal != null && end != null ? Math.max(0, Math.round(tFinal - end)) : null,
+      at: new Date().toISOString(),
+    };
+    items = items.filter(x => !(x.idx === idx && x.condition === it.condition));
+    items.push(it); persist();
+    $("verdict").innerHTML = verdictHtml(it);
+    table(); stats();
+  }
+  function start() {
+    if (!rec || listening) return;
+    listening = true; done = false; last = ""; tRelease = null; tSpeechEnd = null;
+    $("live").classList.add("on"); $("hyp").textContent = "Listening…"; $("verdict").textContent = "";
+    try { rec.start(); } catch (_) {}
+  }
+  function stop() { if (rec && listening) { tRelease = performance.now(); rec.stop(); } }
+
+  document.addEventListener("keydown", e => {
+    if (e.code === "Space" && !e.repeat && e.target.tagName !== "SELECT") { e.preventDefault(); start(); }
+    if (e.key === "ArrowRight") { idx = Math.min(SENTENCES.length - 1, idx + 1); show(); }
+    if (e.key === "ArrowLeft") { idx = Math.max(0, idx - 1); show(); }
+  });
+  document.addEventListener("keyup", e => { if (e.code === "Space") { e.preventDefault(); stop(); } });
+  $("next").onclick = () => { idx = Math.min(SENTENCES.length - 1, idx + 1); show(); };
+  $("prev").onclick = () => { idx = Math.max(0, idx - 1); show(); };
+  $("redo").onclick = () => { items = items.filter(x => !(x.idx === idx && x.condition === cond())); persist(); show(); };
+  $("cond").onchange = () => { idx = firstTodo(); show(); $("cond").blur(); };
+  $("reset").onclick = () => { if (confirm("Delete every recorded sentence?")) { items = []; persist(); idx = 0; show(); } };
+  $("dl").onclick = () => {
+    const blob = new Blob([JSON.stringify({
+      asr: "Chrome Web Speech API (en-US)", router: "app/lens/router.js",
+      user_agent: navigator.userAgent, created: new Date().toISOString(), items,
+    }, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "voice_results.json"; a.click();
+  };
+  idx = firstTodo(); show();
+})();
+</script>
+</body>
+</html>

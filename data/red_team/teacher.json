@@ -1,0 +1,8 @@
+{
+  "_source": "Claude (session Cowork), mêmes passages BM25 que le student, mêmes règles que prompts/extract_v2.txt. Passages : uv run python scripts/red_team.py --passages",
+  "R1": {"functional": "B3LYP"},
+  "R2": {"functional": "B3LYP"},
+  "R3": {"functional": "B3LYP", "basis": "6-311++G(d,p)", "software": "Gaussian 09"},
+  "R4": {"solvation": "NOT_FOUND"},
+  "R5": {"functional": "NOT_FOUND", "basis": "6-311++G(d,p)", "software": "NOT_FOUND"}
+}

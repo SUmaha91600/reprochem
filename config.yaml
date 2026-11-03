@@ -1,0 +1,129 @@
+# All settings live here, never in the code.
+# The surprise constraint of 1 December is handled in this file.
+
+model:
+  # --- Default: Qwen locally via Ollama. Nothing to pay, nothing leaves the laptop.
+  #     ollama pull qwen3:1.7b    (≈ 1.4 GB, the lightest one that holds up)
+  #     ollama pull qwen3:8b      (≈ 5 GB, clearly better at constrained JSON)
+  # Start with 1.7b, measure, then pull 8b and rerun the same evaluation:
+  # the gap between them is a line in the report, not a hunch.
+  base_url: http://localhost:11434/v1
+  name: qwen3:1.7b
+  api_key_env: none
+
+  # --- Hosted Qwen, when speed matters (free key: console.groq.com/keys)
+  #   base_url: https://api.groq.com/openai/v1   name: qwen/qwen3-32b   api_key_env: GROQ_API_KEY
+  # --- The course model, for comparison
+  #   base_url: https://api.groq.com/openai/v1   name: openai/gpt-oss-20b   api_key_env: GROQ_API_KEY
+  #
+  # The environment variables REPROCHEM_BASE_URL, REPROCHEM_MODEL and
+  # REPROCHEM_API_KEY_ENV override these three lines, so two models can be
+  # compared without touching the file.
+
+  temperature: 0
+  max_tokens: 700
+  seed: 7
+  # Qwen3 reasons by default; extraction does not need it and it costs tokens.
+  # Ollama accepts /no_think in the prompt, the Groq API exposes
+  # reasoning_effort. Set to false to compare with reasoning enabled.
+  disable_thinking: true
+
+prompts:
+  extract: prompts/extract_v2.txt   # v2: geometry step, value copied verbatim
+  compile: prompts/compile_v2.txt   # v2: converts the paper's notation to canonical form
+  baseline: prompts/baseline_v2.txt   # v1 kept for the record: no citation, no NOT_FOUND rule
+
+# Strong baseline: a strong model reads the ENTIRE paper, with no retrieval.
+# The jury will ask "why not just use a big model?", so we measure it rather
+# than answer from gut feeling.
+#   uv run python eval/eval.py --baseline --limit 5
+# REPROCHEM_BASELINE_BASE_URL, REPROCHEM_BASELINE_MODEL and
+# REPROCHEM_BASELINE_API_KEY_ENV override the first three lines.
+baseline:
+  base_url: https://api.groq.com/openai/v1
+  name: openai/gpt-oss-120b
+  api_key_env: GROQ_API_KEY
+  # Other possible competitors, all OpenAI-compatible:
+  #   openai/gpt-oss-20b or qwen/qwen3-32b on Groq
+  #   a Gemini model via https://generativelanguage.googleapis.com/v1beta/openai/ (GEMINI_API_KEY)
+  #   Claude via https://api.anthropic.com/v1/ (ANTHROPIC_API_KEY, paid)
+  #   the floor: local qwen3:1.7b on the whole paper (http://localhost:11434/v1, none)
+  # Free tiers cap tokens per minute, so a 30k-token paper may be rejected.
+  # The evaluation logs the error and moves on to the next paper.
+  temperature: 0
+  max_tokens: 4000            # reasoning models spend tokens before answering
+  reasoning_effort: medium    # read by gpt-oss; set to null for a model that does not support it
+  max_context_tokens: 120000  # above this, the paper is rejected rather than truncated
+  timeout: 300
+  max_retries: 3
+
+# Distillation teacher: a large model labels the documents; its answers train
+# the local student (LoRA) and measure how faithful the student is.
+#   uv run python scripts/teacher_label.py --dry            # estimates tokens, makes no call
+#   uv run python scripts/teacher_label.py --limit 20
+# REPROCHEM_TEACHER_BASE_URL / _MODEL / _API_KEY_ENV switch it on the fly.
+teacher:
+  # Optional. The 840 shipped labels were produced in the Claude desktop app,
+  # without the API (data/teacher/labels/). This section is only needed to
+  # regenerate them through an API with scripts/teacher_label.py.
+  base_url: https://api.anthropic.com/v1/      # Anthropic's OpenAI-compatible endpoint
+  # Copy the exact ID from https://docs.claude.com/en/docs/about-claude/models
+  name: claude-opus-5-5
+  api_key_env: ANTHROPIC_API_KEY
+  temperature: 0
+  max_tokens: 2000
+  max_context_tokens: 150000
+  timeout: 300
+  max_retries: 3
+  # Internal documents: false until the written authorisation is signed.
+  # Also check the API's data retention policy and its terms on reusing
+  # outputs to train another model.
+  allow_internal: false
+
+# Distillation: how the training set is built.
+distill:
+  retrieval_mode: bm25         # the student's production mode: BM25 runs anywhere, no embedding model needed
+  valid_fraction: 0.1          # share of DOCUMENTS (not examples) held out for validation
+  out_dir: data/sft            # train.jsonl / valid.jsonl in mlx-lm chat format
+  labels_dir: data/teacher     # teacher answers, cached so nothing is paid for twice
+
+retrieval:
+  enabled: true
+  chunking: sections          # sections | fixed  (measured in the 7 Oct lab: sections wins)
+  max_words: 200              # longer sections are split: the student has a short context
+  fixed_words: 180
+  # Two paths for embeddings:
+  #   ollama                → the model already pulled on the machine, no extra
+  #                           Python package (no torch, no 3 GB)
+  #   sentence-transformers → the path from the 7 Oct lab
+  embedder_backend: ollama
+  embedder: bge-m3:latest           # alternative already pulled: nomic-embed-text:latest
+  embeddings_base_url: http://localhost:11434/v1
+  # Reranking uses a cross-encoder, which Ollama does not offer; it needs
+  # `uv sync --extra retrieval`. Without it, rerank mode falls back to hybrid.
+  reranker: BAAI/bge-reranker-v2-m3
+  rrf_k: 60
+  rerank_n: 8
+  top_k: 3
+  # Abstention threshold: below it, the field is NOT_FOUND. One threshold per
+  # mode, because the scales are unrelated (RRF ~0.03, cosine ~0.5, BM25 > 10).
+  # 0 = no score-based abstention; the model's own NOT_FOUND decides.
+  # Calibrated in week 3 on the dev set, not picked by hand.
+  abstain_threshold:
+    rerank: 0.35
+    dense: 0.0
+    hybrid: 0.0
+    bm25: 0.0
+
+compiler:
+  engine: pyscf               # only engine supported in v1
+  dry_run_molecule: water     # toy molecule for the runnability test
+  max_basis_functions: 1200   # cost guardrail: above this, the job is refused
+  scf_conv_tol: 1.0e-8
+  max_scf_cycles: 60
+
+evaluation:
+  testset: eval/testset.jsonl              # human gold set; data/internal/testset.jsonl for internal docs
+  teacher_cards: data/teacher/doc_cards.jsonl   # teacher cards, for the faithfulness metric
+  report: eval/report.json
+  bootstrap_samples: 2000     # confidence interval on every metric

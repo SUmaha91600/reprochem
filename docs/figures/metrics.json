@@ -1,0 +1,80 @@
+{
+  "distillation": {
+    "gap_closed": {
+      "field_accuracy": 0.61,
+      "abstention": 0.8,
+      "hallucination": 0.8,
+      "citation_verified": -0.47,
+      "teacher_agreement": 0.57
+    },
+    "lora_minus_base_paired": {
+      "field_accuracy": [
+        0.154,
+        0.066,
+        0.253,
+        91
+      ],
+      "abstention": [
+        0.186,
+        0.047,
+        0.326,
+        43
+      ],
+      "hallucination": [
+        -0.186,
+        -0.326,
+        -0.047,
+        43
+      ],
+      "citation_verified": [
+        -0.03,
+        -0.212,
+        0.152,
+        33
+      ]
+    }
+  },
+  "training": {
+    "run1_first_nan_iter": 110,
+    "val_first": [
+      1,
+      2.237
+    ],
+    "val_last": [
+      1020,
+      0.169
+    ],
+    "val_best": [
+      1020,
+      0.169
+    ],
+    "peak_mem_gb": 5.088
+  },
+  "errors": {
+    "student-base": {
+      "correct": 51,
+      "retrieval": 5,
+      "wrong": 16,
+      "abstain": 8,
+      "invent": 11
+    },
+    "student-lora": {
+      "correct": 65,
+      "retrieval": 5,
+      "wrong": 7,
+      "abstain": 11,
+      "invent": 3
+    },
+    "teacher": {
+      "correct": 74,
+      "retrieval": 5,
+      "wrong": 0,
+      "abstain": 11,
+      "invent": 1
+    }
+  },
+  "red_team": {
+    "student_held": 7,
+    "checks": 9
+  }
+}

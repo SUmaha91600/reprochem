@@ -1,0 +1,457 @@
+=== Tue Nov  3 00:48:04 CET 2026 · benchmark ===
+sheet: data/gold_review_edited.xlsx
+corrections: 27 rows taken from data/gold_corrections.xlsx
+eval/testset.jsonl: 13 papers, 91 fields, 43 of them NOT_FOUND (47 %)
+out of scope (2): 2610.04534, 2205.02623
+Resolved 110 packages in 2ms
+Downloading pyscf (34.8MiB)
+Downloading scipy (19.5MiB)
+Downloading h5py (2.9MiB)
+ Downloaded h5py
+Downloading rdkit (28.9MiB)
+ Downloaded scipy
+ Downloaded pyscf
+ Downloaded rdkit
+Prepared 5 packages in 9.82s
+Installed 5 packages in 29ms
+ + h5py==3.16.0
+ + pyscf==2.14.0
+ + rdkit==2026.3.6
+ + scipy==1.18.1
+ + setuptools==84.0.0
+[1/13] 2202.02370: 0.0 s
+[2/13] 2110.03421: 0.0 s
+[3/13] 2406.02341: 0.0 s
+[4/13] 2207.04987: 0.0 s
+[5/13] 2505.09606: 0.0 s
+[6/13] 1512.08572: 0.0 s
+[7/13] 2102.13579: 0.0 s
+[8/13] 2602.13187: 0.0 s
+[9/13] 2602.15700: 0.0 s
+[10/13] 2610.09924: 0.0 s
+[11/13] 2604.17536: 0.0 s
+[12/13] 2610.09389: 0.0 s
+[13/13] 2609.36947: 0.0 s
+{
+  "label": "teacher",
+  "n_papers": 13,
+  "n_failed": 0,
+  "mode": "fiches existantes",
+  "model": "claude (Cowork session)",
+  "field_accuracy": [
+    0.813,
+    0.736,
+    0.89
+  ],
+  "citation_verified": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "quote_in_paper": [
+    0.939,
+    0.848,
+    1.0
+  ],
+  "abstention": [
+    0.977,
+    0.93,
+    1.0
+  ],
+  "hallucination": [
+    0.023,
+    0.0,
+    0.07
+  ],
+  "runnable": null,
+  "teacher_agreement": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "n_absent_fields": 43,
+  "median_seconds": 0.0,
+  "median_input_tokens": null,
+  "invented_values": [
+    {
+      "paper_id": "2602.15700",
+      "field": "multiplicity",
+      "value": "singlet"
+    }
+  ],
+  "quotes_not_in_paper": [
+    {
+      "paper_id": "2207.04987",
+      "field": "basis",
+      "value": "cc-pVTZ"
+    },
+    {
+      "paper_id": "2207.04987",
+      "field": "dispersion",
+      "value": "GD3BJ"
+    }
+  ],
+  "failed": []
+}
+
+report written to eval/report_teacher.json
+  0000100_adapters.safetensors     healthy
+  0000200_adapters.safetensors     healthy
+  0000300_adapters.safetensors     healthy
+  0000400_adapters.safetensors     healthy
+  0000500_adapters.safetensors     healthy
+  0000600_adapters.safetensors     healthy
+  0000700_adapters.safetensors     healthy
+  0000800_adapters.safetensors     healthy
+  0000900_adapters.safetensors     healthy
+  0001000_adapters.safetensors     healthy
+adapters/qwen3-1.7b-reprochem/adapters.safetensors: healthy, kept
+mx.metal.device_info is deprecated and will be removed in a future version. Use mx.device_info instead.
+[1/13] 2202.02370: 14.84 s
+[2/13] 2110.03421: 26.08 s
+[3/13] 2406.02341: 16.83 s
+[4/13] 2207.04987: 15.71 s
+[5/13] 2505.09606: 19.35 s
+[6/13] 1512.08572: 15.61 s
+[7/13] 2102.13579: 18.09 s
+[8/13] 2602.13187: 17.7 s
+[9/13] 2602.15700: 22.37 s
+[10/13] 2610.09924: 19.68 s
+[11/13] 2604.17536: 17.82 s
+[12/13] 2610.09389: 21.07 s
+[13/13] 2609.36947: 19.56 s
+{
+  "label": "student-base",
+  "n_papers": 13,
+  "n_failed": 0,
+  "mode": "bm25",
+  "model": "models/qwen3-1.7b-4bit",
+  "field_accuracy": [
+    0.56,
+    0.462,
+    0.67
+  ],
+  "citation_verified": [
+    0.816,
+    0.694,
+    0.918
+  ],
+  "quote_in_paper": [
+    0.694,
+    0.571,
+    0.816
+  ],
+  "abstention": [
+    0.744,
+    0.605,
+    0.884
+  ],
+  "hallucination": [
+    0.256,
+    0.116,
+    0.395
+  ],
+  "runnable": null,
+  "teacher_agreement": [
+    0.615,
+    0.516,
+    0.714
+  ],
+  "n_absent_fields": 43,
+  "median_seconds": 18.09,
+  "median_input_tokens": null,
+  "invented_values": [
+    {
+      "paper_id": "2505.09606",
+      "field": "dispersion",
+      "value": "D4"
+    },
+    {
+      "paper_id": "2505.09606",
+      "field": "solvation",
+      "value": "ALPB"
+    },
+    {
+      "paper_id": "1512.08572",
+      "field": "dispersion",
+      "value": "B3LYP"
+    },
+    {
+      "paper_id": "1512.08572",
+      "field": "multiplicity",
+      "value": "1"
+    },
+    {
+      "paper_id": "2602.13187",
+      "field": "dispersion",
+      "value": "D3(BJ)"
+    },
+    {
+      "paper_id": "2602.15700",
+      "field": "dispersion",
+      "value": "D3(BJ)"
+    },
+    {
+      "paper_id": "2604.17536",
+      "field": "dispersion",
+      "value": "D3(BJ)"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "functional",
+      "value": "ALM"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "basis",
+      "value": "def2-TZVP"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "dispersion",
+      "value": "ALM"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "software",
+      "value": "GMoLprop"
+    }
+  ],
+  "quotes_not_in_paper": [
+    {
+      "paper_id": "2406.02341",
+      "field": "basis",
+      "value": "GFN2xTB"
+    },
+    {
+      "paper_id": "2207.04987",
+      "field": "functional",
+      "value": "B3LYP"
+    },
+    {
+      "paper_id": "2207.04987",
+      "field": "basis",
+      "value": "cc-pVTZ"
+    },
+    {
+      "paper_id": "2207.04987",
+      "field": "multiplicity",
+      "value": "1"
+    },
+    {
+      "paper_id": "2505.09606",
+      "field": "functional",
+      "value": "B3LYP"
+    },
+    {
+      "paper_id": "2505.09606",
+      "field": "solvation",
+      "value": "ALPB"
+    },
+    {
+      "paper_id": "1512.08572",
+      "field": "dispersion",
+      "value": "B3LYP"
+    },
+    {
+      "paper_id": "2102.13579",
+      "field": "functional",
+      "value": "B3LYP"
+    },
+    {
+      "paper_id": "2602.13187",
+      "field": "functional",
+      "value": "B3LYP/cc-pVTZ"
+    },
+    {
+      "paper_id": "2602.13187",
+      "field": "dispersion",
+      "value": "D3(BJ)"
+    },
+    {
+      "paper_id": "2610.09924",
+      "field": "basis",
+      "value": "def2-TZVP"
+    },
+    {
+      "paper_id": "2610.09924",
+      "field": "software",
+      "value": "ORCA 6.0"
+    },
+    {
+      "paper_id": "2610.09389",
+      "field": "basis",
+      "value": "def2-TZVP"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "basis",
+      "value": "def2-TZVP"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "software",
+      "value": "GMoLprop"
+    }
+  ],
+  "failed": []
+}
+
+report written to eval/report_student-base.json
+mx.metal.device_info is deprecated and will be removed in a future version. Use mx.device_info instead.
+[1/13] 2202.02370: 16.03 s
+[2/13] 2110.03421: 20.63 s
+[3/13] 2406.02341: 17.63 s
+[4/13] 2207.04987: 19.45 s
+[5/13] 2505.09606: 22.45 s
+[6/13] 1512.08572: 18.61 s
+[7/13] 2102.13579: 20.78 s
+[8/13] 2602.13187: 19.79 s
+[9/13] 2602.15700: 21.61 s
+[10/13] 2610.09924: 21.59 s
+[11/13] 2604.17536: 18.52 s
+[12/13] 2610.09389: 22.4 s
+[13/13] 2609.36947: 18.7 s
+{
+  "label": "student-lora",
+  "n_papers": 13,
+  "n_failed": 0,
+  "mode": "bm25",
+  "model": "models/qwen3-1.7b-4bit",
+  "field_accuracy": [
+    0.714,
+    0.626,
+    0.802
+  ],
+  "citation_verified": [
+    0.73,
+    0.568,
+    0.865
+  ],
+  "quote_in_paper": [
+    0.838,
+    0.73,
+    0.946
+  ],
+  "abstention": [
+    0.93,
+    0.837,
+    1.0
+  ],
+  "hallucination": [
+    0.07,
+    0.0,
+    0.163
+  ],
+  "runnable": null,
+  "teacher_agreement": [
+    0.835,
+    0.758,
+    0.912
+  ],
+  "n_absent_fields": 43,
+  "median_seconds": 19.79,
+  "median_input_tokens": null,
+  "invented_values": [
+    {
+      "paper_id": "2505.09606",
+      "field": "charge",
+      "value": "3"
+    },
+    {
+      "paper_id": "2602.15700",
+      "field": "multiplicity",
+      "value": "singlet"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "software",
+      "value": "GMoLprop"
+    }
+  ],
+  "quotes_not_in_paper": [
+    {
+      "paper_id": "2406.02341",
+      "field": "basis",
+      "value": "631G(d)"
+    },
+    {
+      "paper_id": "2207.04987",
+      "field": "basis",
+      "value": "cc-pVTZ"
+    },
+    {
+      "paper_id": "2207.04987",
+      "field": "dispersion",
+      "value": "GD3BJ"
+    },
+    {
+      "paper_id": "2505.09606",
+      "field": "charge",
+      "value": "3"
+    },
+    {
+      "paper_id": "2602.13187",
+      "field": "basis",
+      "value": "cc-pVDZ"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "software",
+      "value": "GMoLprop"
+    }
+  ],
+  "failed": []
+}
+
+report written to eval/report_student-lora.json
+mx.metal.device_info is deprecated and will be removed in a future version. Use mx.device_info instead.
+R1 functional   expected B3LYP          teacher B3LYP          student-lora B3LYP          ok
+R2 functional   expected B3LYP          teacher B3LYP          student-lora PBE0           FAIL
+R3 functional   expected B3LYP          teacher B3LYP          student-lora B3LYP          ok
+R3 basis        expected 6-311++G(d,p)  teacher 6-311++G(d,p)  student-lora 6-311++G(d,p)  ok
+R3 software     expected Gaussian 09    teacher Gaussian 09    student-lora Gaussian 09    ok
+R4 solvation    expected NOT_FOUND      teacher NOT_FOUND      student-lora NOT_FOUND      ok
+R5 functional   expected B3LYP          teacher NOT_FOUND      student-lora NOT_FOUND      FAIL
+R5 basis        expected 6-311++G(d,p)  teacher 6-311++G(d,p)  student-lora 6-311++G(d,p)  ok
+R5 software     expected Gaussian 09    teacher NOT_FOUND      student-lora Gaussian 09    ok
+
+written: docs/red_team_results.md
+teacher                claude (Cowork session) · fiches existantes · 13 documents
+student-base           models/qwen3-1.7b-4bit · bm25 · 13 documents
+student-lora           models/qwen3-1.7b-4bit · bm25 · 13 documents
+
+                            teacher             student-base        student-lora        
+correct field (gold set)    0.81 [0.74–0.89]    0.56 [0.46–0.67]    0.71 [0.63–0.80]    
+invented value if absent    0.02 [0.00–0.07]    0.26 [0.12–0.40]    0.07 [0.00–0.16]    
+NOT_FOUND if absent         0.98 [0.93–1.00]    0.74 [0.60–0.88]    0.93 [0.84–1.00]    
+quote in the document       0.94 [0.85–1.00]    0.69 [0.57–0.82]    0.84 [0.73–0.95]    
+value in the quote          1.00 [1.00–1.00]    0.82 [0.69–0.92]    0.73 [0.57–0.86]    
+agreement with the teacher  1.00 [1.00–1.00]    0.61 [0.52–0.71]    0.83 [0.76–0.91]    
+script that converges       —                   —                   —                   
+seconds per document        0.0                 18.09               19.79               
+
+invented values · teacher:
+  2602.15700       multiplicity  singlet
+
+invented values · student-base:
+  2505.09606       dispersion    D4
+  2505.09606       solvation     ALPB
+  1512.08572       dispersion    B3LYP
+  1512.08572       multiplicity  1
+  2602.13187       dispersion    D3(BJ)
+  2602.15700       dispersion    D3(BJ)
+  2604.17536       dispersion    D3(BJ)
+  2609.36947       functional    ALM
+  2609.36947       basis         def2-TZVP
+  2609.36947       dispersion    ALM
+  2609.36947       software      GMoLprop
+
+invented values · student-lora:
+  2505.09606       charge        3
+  2602.15700       multiplicity  singlet
+  2609.36947       software      GMoLprop
+
+written: docs/results.md
+=== Tue Nov  3 01:08:44 CET 2026 · done ===
+=== Tue Nov  3 01:08:44 CET 2026 · nuit terminée

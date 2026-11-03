@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ReproChem Lens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="lens.css">
+</head>
+<body data-mode="diagram">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="3.2" fill="#2ee6d6"/><ellipse cx="13" cy="13" rx="11" ry="4.2" fill="none" stroke="#8b5cf6" stroke-width="1.6"/><ellipse cx="13" cy="13" rx="11" ry="4.2" fill="none" stroke="#4cc9f0" stroke-width="1.6" transform="rotate(60 13 13)"/><ellipse cx="13" cy="13" rx="11" ry="4.2" fill="none" stroke="#ff6b6b" stroke-width="1.6" transform="rotate(-60 13 13)"/></svg>
+      ReproChem <b>Lens</b>
+    </div>
+    <ol class="acts" id="acts" aria-label="Video steps">
+      <li data-i="0">Question</li><li data-i="1">Problem</li><li data-i="2">Elements</li><li data-i="3">Answer</li><li data-i="4">Going further</li>
+    </ol>
+    <div class="tools">
+      <button class="chip" id="ccBtn" aria-pressed="false" title="Subtitles">CC</button>
+      <button class="chip" id="pauseBtn" title="Pause / resume (P)">❚❚</button>
+    </div>
+  </header>
+
+  <main class="stage bars" id="stage">
+    <div class="question" id="question">Ask a question out loud</div>
+    <div class="hud" aria-hidden="true">
+      <span class="rec"><i></i>LIVE</span>
+      <span id="tc">00:00</span>
+      <span class="wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+    </div>
+    <svg id="canvas" viewBox="0 0 1000 580" role="img" aria-label="Explanatory diagram">
+      <defs>
+        <linearGradient id="gCore" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3ff0e0"/><stop offset="1" stop-color="#0ea5b7"/></linearGradient>
+        <linearGradient id="gStep" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a3fb0"/><stop offset="1" stop-color="#2b2176"/></linearGradient>
+        <linearGradient id="gRisk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7d7d"/><stop offset="1" stop-color="#d9435f"/></linearGradient>
+        <linearGradient id="gFix" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fe09a"/><stop offset="1" stop-color="#1f9e6a"/></linearGradient>
+        <linearGradient id="gResult" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#f5b70a"/></linearGradient>
+        <linearGradient id="gWarn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb35c"/><stop offset="1" stop-color="#f07f12"/></linearGradient>
+        <linearGradient id="gSeg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d1a5c"/><stop offset="1" stop-color="#0d0b33"/></linearGradient>
+        <linearGradient id="gSweep" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="gNuc"><stop offset="0" stop-color="#ffd23f"/><stop offset="1" stop-color="#ff6b6b"/></radialGradient>
+        <filter id="neon" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="bloom" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8" result="b"/><feColorMatrix in="b" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .8 0" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <clipPath id="clipAll"><rect x="-200" y="-200" width="1400" height="980"/></clipPath>
+      </defs>
+      <g id="deco" class="deco"></g>
+      <g id="edges"></g><g id="nodes"></g><g id="fx"></g>
+    </svg>
+    <div class="card" id="titleCard"><div class="kicker" id="kicker">ReproChem Lens</div><div class="title glitch" id="cardTitle"></div><div class="line"></div></div>
+    <div class="actflag" id="actflag"></div>
+    <div class="caption" id="caption" hidden></div>
+    <div class="sources" id="sources"></div>
+    <div class="scan"></div><div class="vignette"></div>
+  </main>
+
+  <footer class="bottom">
+    <button class="mic" id="micBtn" aria-label="Talk (hold Space)"><span class="dot"></span><span id="micLabel">Talk</span></button>
+    <div class="heard" id="heard">“Explain the BP86 basis set to me as a video”</div>
+    <form id="typed" class="typed"><input id="typedIn" placeholder="or type your question…" autocomplete="off"><button class="chip">↵</button></form>
+  </footer>
+  <nav class="shelf" id="shelf" aria-label="Available concepts"></nav>
+  <p class="fine" id="fine"></p>
+</div>
+<script src="concepts.js"></script>
+<script src="router.js"></script>
+<script src="fx.js"></script>
+<script src="lens.js"></script>
+</body>
+</html>

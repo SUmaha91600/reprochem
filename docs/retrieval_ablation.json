@@ -1,0 +1,1103 @@
+{
+  "testset": "eval/testset.jsonl",
+  "n_papers": 13,
+  "kmax": 10,
+  "production": {
+    "retriever": "bm25",
+    "label": "sections ≤ 200 w",
+    "top_k": 3
+  },
+  "seconds": 2.7,
+  "rows": [
+    {
+      "retriever": "bm25",
+      "chunking": "sections",
+      "size": 50,
+      "label": "sections ≤ 50 w",
+      "median_chunks_per_paper": 148,
+      "recall_at_k": [
+        0.583,
+        0.771,
+        0.833,
+        0.875,
+        0.896,
+        0.896,
+        0.917,
+        0.917,
+        0.917,
+        0.938
+      ],
+      "recall_at_3_ci": [
+        0.833,
+        0.729,
+        0.938
+      ],
+      "hits_at_3": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "n_fields": 48,
+      "per_field_recall_at_3": {
+        "functional": [
+          9,
+          12
+        ],
+        "basis": [
+          10,
+          12
+        ],
+        "dispersion": [
+          3,
+          3
+        ],
+        "solvation": [
+          1,
+          2
+        ],
+        "charge": [
+          2,
+          3
+        ],
+        "multiplicity": [
+          4,
+          4
+        ],
+        "software": [
+          11,
+          12
+        ]
+      },
+      "median_context_words_top3": 159,
+      "max_context_words_top3": 192,
+      "median_prompt_tokens": null,
+      "max_prompt_tokens": null
+    },
+    {
+      "retriever": "bm25",
+      "chunking": "sections",
+      "size": 100,
+      "label": "sections ≤ 100 w",
+      "median_chunks_per_paper": 78,
+      "recall_at_k": [
+        0.625,
+        0.812,
+        0.875,
+        0.917,
+        0.917,
+        0.917,
+        0.938,
+        0.958,
+        0.958,
+        0.958
+      ],
+      "recall_at_3_ci": [
+        0.875,
+        0.771,
+        0.958
+      ],
+      "hits_at_3": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "n_fields": 48,
+      "per_field_recall_at_3": {
+        "functional": [
+          9,
+          12
+        ],
+        "basis": [
+          11,
+          12
+        ],
+        "dispersion": [
+          3,
+          3
+        ],
+        "solvation": [
+          1,
+          2
+        ],
+        "charge": [
+          3,
+          3
+        ],
+        "multiplicity": [
+          4,
+          4
+        ],
+        "software": [
+          11,
+          12
+        ]
+      },
+      "median_context_words_top3": 306,
+      "max_context_words_top3": 342,
+      "median_prompt_tokens": null,
+      "max_prompt_tokens": null
+    },
+    {
+      "retriever": "bm25",
+      "chunking": "sections",
+      "size": 150,
+      "label": "sections ≤ 150 w",
+      "median_chunks_per_paper": 57,
+      "recall_at_k": [
+        0.625,
+        0.792,
+        0.896,
+        0.896,
+        0.896,
+        0.917,
+        0.938,
+        0.958,
+        0.958,
+        0.958
+      ],
+      "recall_at_3_ci": [
+        0.896,
+        0.792,
+        0.979
+      ],
+      "hits_at_3": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "n_fields": 48,
+      "per_field_recall_at_3": {
+        "functional": [
+          9,
+          12
+        ],
+        "basis": [
+          12,
+          12
+        ],
+        "dispersion": [
+          3,
+          3
+        ],
+        "solvation": [
+          1,
+          2
+        ],
+        "charge": [
+          3,
+          3
+        ],
+        "multiplicity": [
+          4,
+          4
+        ],
+        "software": [
+          11,
+          12
+        ]
+      },
+      "median_context_words_top3": 425,
+      "max_context_words_top3": 492,
+      "median_prompt_tokens": null,
+      "max_prompt_tokens": null
+    },
+    {
+      "retriever": "bm25",
+      "chunking": "sections",
+      "size": 200,
+      "label": "sections ≤ 200 w",
+      "median_chunks_per_paper": 46,
+      "recall_at_k": [
+        0.75,
+        0.833,
+        0.896,
+        0.938,
+        0.938,
+        0.938,
+        0.938,
+        0.958,
+        0.958,
+        0.958
+      ],
+      "recall_at_3_ci": [
+        0.896,
+        0.812,
+        0.979
+      ],
+      "hits_at_3": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "n_fields": 48,
+      "per_field_recall_at_3": {
+        "functional": [
+          11,
+          12
+        ],
+        "basis": [
+          11,
+          12
+        ],
+        "dispersion": [
+          3,
+          3
+        ],
+        "solvation": [
+          1,
+          2
+        ],
+        "charge": [
+          2,
+          3
+        ],
+        "multiplicity": [
+          4,
+          4
+        ],
+        "software": [
+          11,
+          12
+        ]
+      },
+      "median_context_words_top3": 530,
+      "max_context_words_top3": 642,
+      "median_prompt_tokens": null,
+      "max_prompt_tokens": null
+    },
+    {
+      "retriever": "bm25",
+      "chunking": "sections",
+      "size": 300,
+      "label": "sections ≤ 300 w",
+      "median_chunks_per_paper": 35,
+      "recall_at_k": [
+        0.688,
+        0.854,
+        0.896,
+        0.938,
+        0.958,
+        0.979,
+        0.979,
+        0.979,
+        0.979,
+        0.979
+      ],
+      "recall_at_3_ci": [
+        0.896,
+        0.812,
+        0.979
+      ],
+      "hits_at_3": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "n_fields": 48,
+      "per_field_recall_at_3": {
+        "functional": [
+          11,
+          12
+        ],
+        "basis": [
+          11,
+          12
+        ],
+        "dispersion": [
+          3,
+          3
+        ],
+        "solvation": [
+          1,
+          2
+        ],
+        "charge": [
+          2,
+          3
+        ],
+        "multiplicity": [
+          4,
+          4
+        ],
+        "software": [
+          11,
+          12
+        ]
+      },
+      "median_context_words_top3": 752,
+      "max_context_words_top3": 942,
+      "median_prompt_tokens": null,
+      "max_prompt_tokens": null
+    },
+    {
+      "retriever": "bm25",
+      "chunking": "sections",
+      "size": 400,
+      "label": "sections ≤ 400 w",
+      "median_chunks_per_paper": 29,
+      "recall_at_k": [
+        0.771,
+        0.875,
+        0.938,
+        0.938,
+        0.958,
+        0.958,
+        0.958,
+        0.958,
+        0.958,
+        0.958
+      ],
+      "recall_at_3_ci": [
+        0.938,
+        0.854,
+        1.0
+      ],
+      "hits_at_3": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "n_fields": 48,
+      "per_field_recall_at_3": {
+        "functional": [
+          12,
+          12
+        ],
+        "basis": [
+          12,
+          12
+        ],
+        "dispersion": [
+          3,
+          3
+        ],
+        "solvation": [
+          1,
+          2
+        ],
+        "charge": [
+          2,
+          3
+        ],
+        "multiplicity": [
+          4,
+          4
+        ],
+        "software": [
+          11,
+          12
+        ]
+      },
+      "median_context_words_top3": 883,
+      "max_context_words_top3": 1242,
+      "median_prompt_tokens": null,
+      "max_prompt_tokens": null
+    },
+    {
+      "retriever": "bm25",
+      "chunking": "sections",
+      "size": null,
+      "label": "sections, unsplit",
+      "median_chunks_per_paper": 18,
+      "recall_at_k": [
+        0.771,
+        0.875,
+        0.938,
+        0.979,
+        0.979,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "recall_at_3_ci": [
+        0.938,
+        0.854,
+        1.0
+      ],
+      "hits_at_3": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "n_fields": 48,
+      "per_field_recall_at_3": {
+        "functional": [
+          12,
+          12
+        ],
+        "basis": [
+          12,
+          12
+        ],
+        "dispersion": [
+          3,
+          3
+        ],
+        "solvation": [
+          1,
+          2
+        ],
+        "charge": [
+          2,
+          3
+        ],
+        "multiplicity": [
+          4,
+          4
+        ],
+        "software": [
+          11,
+          12
+        ]
+      },
+      "median_context_words_top3": 1678,
+      "max_context_words_top3": 6716,
+      "median_prompt_tokens": null,
+      "max_prompt_tokens": null
+    },
+    {
+      "retriever": "bm25",
+      "chunking": "fixed",
+      "size": 100,
+      "label": "fixed 100 w",
+      "median_chunks_per_paper": 71,
+      "recall_at_k": [
+        0.708,
+        0.875,
+        0.917,
+        0.938,
+        0.938,
+        0.979,
+        0.979,
+        0.979,
+        0.979,
+        0.979
+      ],
+      "recall_at_3_ci": [
+        0.917,
+        0.833,
+        0.979
+      ],
+      "hits_at_3": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "n_fields": 48,
+      "per_field_recall_at_3": {
+        "functional": [
+          10,
+          12
+        ],
+        "basis": [
+          11,
+          12
+        ],
+        "dispersion": [
+          3,
+          3
+        ],
+        "solvation": [
+          1,
+          2
+        ],
+        "charge": [
+          3,
+          3
+        ],
+        "multiplicity": [
+          4,
+          4
+        ],
+        "software": [
+          12,
+          12
+        ]
+      },
+      "median_context_words_top3": 300,
+      "max_context_words_top3": 300,
+      "median_prompt_tokens": null,
+      "max_prompt_tokens": null
+    },
+    {
+      "retriever": "bm25",
+      "chunking": "fixed",
+      "size": 200,
+      "label": "fixed 200 w",
+      "median_chunks_per_paper": 36,
+      "recall_at_k": [
+        0.604,
+        0.854,
+        0.938,
+        0.979,
+        0.979,
+        0.979,
+        0.979,
+        0.979,
+        0.979,
+        0.979
+      ],
+      "recall_at_3_ci": [
+        0.938,
+        0.854,
+        1.0
+      ],
+      "hits_at_3": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "n_fields": 48,
+      "per_field_recall_at_3": {
+        "functional": [
+          11,
+          12
+        ],
+        "basis": [
+          12,
+          12
+        ],
+        "dispersion": [
+          3,
+          3
+        ],
+        "solvation": [
+          1,
+          2
+        ],
+        "charge": [
+          3,
+          3
+        ],
+        "multiplicity": [
+          4,
+          4
+        ],
+        "software": [
+          11,
+          12
+        ]
+      },
+      "median_context_words_top3": 600,
+      "max_context_words_top3": 600,
+      "median_prompt_tokens": null,
+      "max_prompt_tokens": null
+    },
+    {
+      "retriever": "bm25",
+      "chunking": "fixed",
+      "size": 300,
+      "label": "fixed 300 w",
+      "median_chunks_per_paper": 24,
+      "recall_at_k": [
+        0.646,
+        0.896,
+        0.958,
+        0.979,
+        0.979,
+        0.979,
+        0.979,
+        0.979,
+        0.979,
+        0.979
+      ],
+      "recall_at_3_ci": [
+        0.958,
+        0.896,
+        1.0
+      ],
+      "hits_at_3": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "n_fields": 48,
+      "per_field_recall_at_3": {
+        "functional": [
+          12,
+          12
+        ],
+        "basis": [
+          12,
+          12
+        ],
+        "dispersion": [
+          3,
+          3
+        ],
+        "solvation": [
+          1,
+          2
+        ],
+        "charge": [
+          3,
+          3
+        ],
+        "multiplicity": [
+          4,
+          4
+        ],
+        "software": [
+          11,
+          12
+        ]
+      },
+      "median_context_words_top3": 900,
+      "max_context_words_top3": 900,
+      "median_prompt_tokens": null,
+      "max_prompt_tokens": null
+    }
+  ]
+}

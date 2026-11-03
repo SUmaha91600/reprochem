@@ -1,0 +1,1229 @@
+{
+  "label": "student-base",
+  "n_papers": 13,
+  "n_failed": 0,
+  "mode": "bm25",
+  "model": "models/qwen3-1.7b-4bit",
+  "field_accuracy": [
+    0.56,
+    0.462,
+    0.67
+  ],
+  "citation_verified": [
+    0.816,
+    0.694,
+    0.918
+  ],
+  "quote_in_paper": [
+    0.694,
+    0.571,
+    0.816
+  ],
+  "abstention": [
+    0.744,
+    0.605,
+    0.884
+  ],
+  "hallucination": [
+    0.256,
+    0.116,
+    0.395
+  ],
+  "runnable": null,
+  "teacher_agreement": [
+    0.615,
+    0.516,
+    0.714
+  ],
+  "n_absent_fields": 43,
+  "median_seconds": 18.09,
+  "median_input_tokens": null,
+  "invented_values": [
+    {
+      "paper_id": "2505.09606",
+      "field": "dispersion",
+      "value": "D4"
+    },
+    {
+      "paper_id": "2505.09606",
+      "field": "solvation",
+      "value": "ALPB"
+    },
+    {
+      "paper_id": "1512.08572",
+      "field": "dispersion",
+      "value": "B3LYP"
+    },
+    {
+      "paper_id": "1512.08572",
+      "field": "multiplicity",
+      "value": "1"
+    },
+    {
+      "paper_id": "2602.13187",
+      "field": "dispersion",
+      "value": "D3(BJ)"
+    },
+    {
+      "paper_id": "2602.15700",
+      "field": "dispersion",
+      "value": "D3(BJ)"
+    },
+    {
+      "paper_id": "2604.17536",
+      "field": "dispersion",
+      "value": "D3(BJ)"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "functional",
+      "value": "ALM"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "basis",
+      "value": "def2-TZVP"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "dispersion",
+      "value": "ALM"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "software",
+      "value": "GMoLprop"
+    }
+  ],
+  "quotes_not_in_paper": [
+    {
+      "paper_id": "2406.02341",
+      "field": "basis",
+      "value": "GFN2xTB"
+    },
+    {
+      "paper_id": "2207.04987",
+      "field": "functional",
+      "value": "B3LYP"
+    },
+    {
+      "paper_id": "2207.04987",
+      "field": "basis",
+      "value": "cc-pVTZ"
+    },
+    {
+      "paper_id": "2207.04987",
+      "field": "multiplicity",
+      "value": "1"
+    },
+    {
+      "paper_id": "2505.09606",
+      "field": "functional",
+      "value": "B3LYP"
+    },
+    {
+      "paper_id": "2505.09606",
+      "field": "solvation",
+      "value": "ALPB"
+    },
+    {
+      "paper_id": "1512.08572",
+      "field": "dispersion",
+      "value": "B3LYP"
+    },
+    {
+      "paper_id": "2102.13579",
+      "field": "functional",
+      "value": "B3LYP"
+    },
+    {
+      "paper_id": "2602.13187",
+      "field": "functional",
+      "value": "B3LYP/cc-pVTZ"
+    },
+    {
+      "paper_id": "2602.13187",
+      "field": "dispersion",
+      "value": "D3(BJ)"
+    },
+    {
+      "paper_id": "2610.09924",
+      "field": "basis",
+      "value": "def2-TZVP"
+    },
+    {
+      "paper_id": "2610.09924",
+      "field": "software",
+      "value": "ORCA 6.0"
+    },
+    {
+      "paper_id": "2610.09389",
+      "field": "basis",
+      "value": "def2-TZVP"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "basis",
+      "value": "def2-TZVP"
+    },
+    {
+      "paper_id": "2609.36947",
+      "field": "software",
+      "value": "GMoLprop"
+    }
+  ],
+  "failed": [],
+  "config": {
+    "model": {
+      "base_url": "http://localhost:11434/v1",
+      "name": "qwen3:1.7b",
+      "api_key_env": "none",
+      "temperature": 0,
+      "max_tokens": 700,
+      "seed": 7,
+      "disable_thinking": true
+    },
+    "prompts": {
+      "extract": "prompts/extract_v2.txt",
+      "compile": "prompts/compile_v2.txt",
+      "baseline": "prompts/baseline_v2.txt"
+    },
+    "baseline": {
+      "base_url": "https://api.groq.com/openai/v1",
+      "name": "openai/gpt-oss-120b",
+      "api_key_env": "GROQ_API_KEY",
+      "temperature": 0,
+      "max_tokens": 4000,
+      "reasoning_effort": "medium",
+      "max_context_tokens": 120000,
+      "timeout": 300,
+      "max_retries": 3
+    },
+    "teacher": {
+      "base_url": "https://api.anthropic.com/v1/",
+      "name": "claude-opus-5-5",
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "temperature": 0,
+      "max_tokens": 2000,
+      "max_context_tokens": 150000,
+      "timeout": 300,
+      "max_retries": 3,
+      "allow_internal": false
+    },
+    "distill": {
+      "retrieval_mode": "bm25",
+      "valid_fraction": 0.1,
+      "out_dir": "data/sft",
+      "labels_dir": "data/teacher"
+    },
+    "retrieval": {
+      "enabled": true,
+      "chunking": "sections",
+      "max_words": 200,
+      "fixed_words": 180,
+      "embedder_backend": "ollama",
+      "embedder": "bge-m3:latest",
+      "embeddings_base_url": "http://localhost:11434/v1",
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "rrf_k": 60,
+      "rerank_n": 8,
+      "top_k": 3,
+      "abstain_threshold": {
+        "rerank": 0.35,
+        "dense": 0.0,
+        "hybrid": 0.0,
+        "bm25": 0.0
+      }
+    },
+    "compiler": {
+      "engine": "pyscf",
+      "dry_run_molecule": "water",
+      "max_basis_functions": 1200,
+      "scf_conv_tol": 1e-08,
+      "max_scf_cycles": 60
+    },
+    "evaluation": {
+      "testset": "eval/testset.jsonl",
+      "teacher_cards": "data/teacher/doc_cards.jsonl",
+      "report": "eval/report.json",
+      "bootstrap_samples": 2000
+    }
+  },
+  "per_paper": [
+    {
+      "paper_id": "2202.02370",
+      "fields": {
+        "functional": {
+          "value": "B3LYP",
+          "gold": "B3LYP",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "basis": {
+          "value": "6-311++G(d,p)",
+          "gold": "6-311++G(d,p)",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "dispersion": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "software": {
+          "value": "Gaussian 09",
+          "gold": "Gaussian 09",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        }
+      }
+    },
+    {
+      "paper_id": "2110.03421",
+      "fields": {
+        "functional": {
+          "value": "B3LYP/6-311+G(3df)",
+          "gold": "B3LYP",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "basis": {
+          "value": "6-311+G(3df)",
+          "gold": "6-311+G(3df)",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "dispersion": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "anion",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "software": {
+          "value": "Gaussian 09",
+          "gold": "Gaussian 09",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        }
+      }
+    },
+    {
+      "paper_id": "2406.02341",
+      "fields": {
+        "functional": {
+          "value": "B3LYP",
+          "gold": "B3LYP",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "basis": {
+          "value": "GFN2xTB",
+          "gold": "6-31G*",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "dispersion": {
+          "value": "BJD3",
+          "gold": "BJD3",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "software": {
+          "value": "Gaussian 16",
+          "gold": "Gaussian 16",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": false,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        }
+      }
+    },
+    {
+      "paper_id": "2207.04987",
+      "fields": {
+        "functional": {
+          "value": "B3LYP",
+          "gold": "B3LYP",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "basis": {
+          "value": "cc-pVTZ",
+          "gold": "cc-pVTZ",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "dispersion": {
+          "value": "GD3BJ",
+          "gold": "GD3BJ",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "1",
+          "gold": "singlet",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "software": {
+          "value": "ASE",
+          "gold": "Gaussian16",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": false,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        }
+      }
+    },
+    {
+      "paper_id": "2505.09606",
+      "fields": {
+        "functional": {
+          "value": "B3LYP",
+          "gold": "BP86",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "basis": {
+          "value": "NOT_FOUND",
+          "gold": "def2-SVP",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "dispersion": {
+          "value": "D4",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": true,
+          "teacher_agree": false
+        },
+        "solvation": {
+          "value": "ALPB",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": true,
+          "teacher_agree": false
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "software": {
+          "value": "PySCF software package",
+          "gold": "PySCF",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        }
+      }
+    },
+    {
+      "paper_id": "1512.08572",
+      "fields": {
+        "functional": {
+          "value": "B3LYP",
+          "gold": "B3LYP",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "basis": {
+          "value": "6-31G*",
+          "gold": "6-31G*",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "dispersion": {
+          "value": "B3LYP",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": true,
+          "teacher_agree": false
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "1",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": false,
+          "quote_in_paper": true,
+          "hallucinated": true,
+          "teacher_agree": false
+        },
+        "software": {
+          "value": "RICC",
+          "gold": "GAMESS",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        }
+      }
+    },
+    {
+      "paper_id": "2102.13579",
+      "fields": {
+        "functional": {
+          "value": "B3LYP",
+          "gold": "B3LYP",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "basis": {
+          "value": "cc-PVTZ",
+          "gold": "cc-pVDZ",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": false,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "dispersion": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "singlet",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "software": {
+          "value": "LAPACK routine",
+          "gold": "GAMESS",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        }
+      }
+    },
+    {
+      "paper_id": "2602.13187",
+      "fields": {
+        "functional": {
+          "value": "B3LYP/cc-pVTZ",
+          "gold": "B3LYP",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "basis": {
+          "value": "geomeTRIC",
+          "gold": "cc-pVTZ",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "dispersion": {
+          "value": "D3(BJ)",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": true,
+          "teacher_agree": false
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "software": {
+          "value": "JAX",
+          "gold": "PySCF",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        }
+      }
+    },
+    {
+      "paper_id": "2602.15700",
+      "fields": {
+        "functional": {
+          "value": "SACIS",
+          "gold": "B3LYP",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "basis": {
+          "value": "6-31+G**",
+          "gold": "6-31+G**",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "dispersion": {
+          "value": "D3(BJ)",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": false,
+          "quote_in_paper": true,
+          "hallucinated": true,
+          "teacher_agree": false
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": false
+        },
+        "software": {
+          "value": "ORCA",
+          "gold": "Gellan",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        }
+      }
+    },
+    {
+      "paper_id": "2610.09924",
+      "fields": {
+        "functional": {
+          "value": "CAM-B3LYP",
+          "gold": "B3LYP",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "basis": {
+          "value": "def2-TZVP",
+          "gold": "def2-TZVPPD",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "dispersion": {
+          "value": "D3(BJ)",
+          "gold": "D4",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": false,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "Neutral",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "singlet",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "software": {
+          "value": "ORCA 6.0",
+          "gold": "ORCA 6.0",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": false,
+          "quote_in_paper": false,
+          "hallucinated": null,
+          "teacher_agree": true
+        }
+      }
+    },
+    {
+      "paper_id": "2604.17536",
+      "fields": {
+        "functional": {
+          "value": "CAM-B3LYP",
+          "gold": "ωB97XD",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "basis": {
+          "value": "def2-TZVP",
+          "gold": "def2-TZVP",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": false,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "dispersion": {
+          "value": "D3(BJ)",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": false,
+          "quote_in_paper": true,
+          "hallucinated": true,
+          "teacher_agree": false
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "neutral",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "software": {
+          "value": "Gaussian 09",
+          "gold": "Gaussian 09",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        }
+      }
+    },
+    {
+      "paper_id": "2610.09389",
+      "fields": {
+        "functional": {
+          "value": "NOT_FOUND",
+          "gold": "PBE",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "basis": {
+          "value": "def2-TZVP",
+          "gold": "def2-SVP",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": null,
+          "teacher_agree": false
+        },
+        "dispersion": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "COSMO",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "singlet",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "software": {
+          "value": "TURBOMOLE",
+          "gold": "TURBOMOLE",
+          "correct": true,
+          "abstained_ok": null,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": null,
+          "teacher_agree": true
+        }
+      }
+    },
+    {
+      "paper_id": "2609.36947",
+      "fields": {
+        "functional": {
+          "value": "ALM",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": true,
+          "teacher_agree": false
+        },
+        "basis": {
+          "value": "def2-TZVP",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": true,
+          "teacher_agree": false
+        },
+        "dispersion": {
+          "value": "ALM",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": true,
+          "quote_in_paper": true,
+          "hallucinated": true,
+          "teacher_agree": false
+        },
+        "solvation": {
+          "value": "NOT_FOUND",
+          "gold": "COSMO",
+          "correct": false,
+          "abstained_ok": null,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": null,
+          "teacher_agree": true
+        },
+        "charge": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "multiplicity": {
+          "value": "NOT_FOUND",
+          "gold": "NOT_FOUND",
+          "correct": true,
+          "abstained_ok": true,
+          "cited": null,
+          "quote_in_paper": null,
+          "hallucinated": false,
+          "teacher_agree": true
+        },
+        "software": {
+          "value": "GMoLprop",
+          "gold": "NOT_FOUND",
+          "correct": false,
+          "abstained_ok": false,
+          "cited": true,
+          "quote_in_paper": false,
+          "hallucinated": true,
+          "teacher_agree": false
+        }
+      }
+    }
+  ]
+}
