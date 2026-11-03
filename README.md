@@ -62,7 +62,8 @@ Details, demo limits and target version: `docs/LENS.md`.
 uv sync                                    # core, from uv.lock
 bash scripts/mac_train.sh                  # student LoRA, 30 to 60 min
 bash scripts/mac_bench.sh                  # benchmark on the gold set, 20 to 30 min
-bash scripts/demo.sh                       # the demo in the browser
+bash scripts/web.sh                        # the app: one HTML page (extraction, Lens, attacks)
+bash scripts/demo.sh                       # the same extraction as a Streamlit page
 uv run python scripts/retrieval_ablation.py # chunk size and retriever, no model
 uv run --with matplotlib python scripts/figures.py   # every figure, from the result files
 ```
@@ -140,6 +141,10 @@ including the lines an assistant wrote.
 the student becomes the core of an agent that reads a new report, flags
 missing settings, launches the calculation and compares the result with the
 reported value.
+
+## Architecture and decisions
+
+How the modules fit together: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Every design choice with the measurement behind it: [docs/DECISIONS.md](docs/DECISIONS.md).
 
 ## Safeguards
 

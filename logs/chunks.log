@@ -1,5 +1,0 @@
-=== Tue Nov  3 12:13:35 CET 2026 · chunk size 200 vs 400 ===
-Another model process is running (demo, benchmark or weight edit):
-47449 uv run python scripts/weight_edit.py sweep --label student-lora --adapter adapters/qwen3-1.7b-reprochem --n-valid 30 --betas 0 0.25 0.5
-47450 /Users/sutharsanmahadevan/Desktop/Sutharsan/M2-aivancity/GenAI_aivancity/reprochem/.venv/bin/python3 scripts/weight_edit.py sweep --label student-lora --adapter adapters/qwen3-1.7b-reprochem --n-valid 30 --betas 0 0.25 0.5
-Stop it first (Ctrl-C in its terminal), then rerun. Nothing was started.

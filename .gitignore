@@ -40,3 +40,15 @@ logs/sec_patch.tgz
 logs/lens_url.txt
 logs/annotate_safeguards.py
 logs/fixmd.py
+
+# Not part of the application: presentation material and local run outputs.
+PITCH_EN.md
+docs/ORAL.md
+docs/DEMO.md
+docs/figures/dark/
+data/teacher_fable/INSTRUCTIONS.md
+data/teacher_fable/tasks_txt/
+eval/gold/
+eval/weight_edit/
+logs/*
+!logs/train.log

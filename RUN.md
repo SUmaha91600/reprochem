@@ -11,7 +11,7 @@ Apple Silicon Mac, uv installed, network for the first Qwen download.
 bash scripts/mac_train.sh    # mlx-lm, then the student's LoRA: 30 to 60 min → logs/train.log
 # validate data/gold_review.xlsx (Décision column), then:
 bash scripts/mac_bench.sh    # gold set, 3 rows, red team, docs/results.md → logs/bench.log
-bash scripts/demo.sh         # the demo, no network
+bash scripts/web.sh          # the app in one HTML page, no network (Lens voice excepted)
 ```
 
 `mac_bench.sh` runs, in order: `gold_from_review.py` (validated sheet → gold
