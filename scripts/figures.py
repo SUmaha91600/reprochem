@@ -35,9 +35,10 @@ sys.path.insert(0, str(ROOT / "eval"))
 OUT = ROOT / "docs/figures"
 REPORTS = [("student-base", "eval/report_student-base.json"),
            ("student-lora", "eval/report_student-lora.json"),
-           ("teacher", "eval/report_teacher.json")]
+           ("teacher", "eval/report_teacher.json"),
+           ("teacher-fable", "eval/report_teacher-fable.json")]   # optional second teacher
 NAMES = {"student-base": "Qwen3-1.7B (base)", "student-lora": "Qwen3-1.7B + LoRA",
-         "teacher": "Claude (teacher)"}
+         "teacher": "Claude (teacher)", "teacher-fable": "Claude Fable (2nd teacher)"}
 FIELDS = ("functional", "basis", "dispersion", "solvation", "charge", "multiplicity", "software")
 
 # Reference palette of the dataviz method: categorical slots 1-3 (validated
@@ -570,6 +571,237 @@ def fig_voice(theme):
     save(fig, "fig7_voice", theme)
 
 
+
+# -------------------------------------------- fig 8 · chunk size, up to 400 w
+def fig_chunks(theme):
+    p = ROOT / "docs/retrieval_ablation.json"
+    if not p.exists():
+        return "needs docs/retrieval_ablation.json (scripts/retrieval_ablation.py)"
+    ab = json.loads(p.read_text())
+    rows = sorted([r for r in ab["rows"] if r["retriever"] == "bm25" and r["chunking"] == "sections"
+                   and r["size"] is not None and r["size"] <= 400], key=lambda r: r["size"])
+    if not rows:
+        return "no section rows in the ablation"
+    plt, t = plt_setup(theme)
+    prod = ab["production"]["label"]
+    sizes = [r["size"] for r in rows]
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(11.5, 4.3))
+    for i, r in enumerate(rows):
+        c3 = r["recall_at_3_ci"]
+        is_prod = r["label"] == prod
+        col = t["series"][1] if is_prod else t["series"][0]
+        a1.errorbar(i, c3[0], yerr=[[c3[0] - c3[1]], [c3[2] - c3[0]]], fmt="o", ms=10 if is_prod else 7,
+                    color=col, ecolor=col, elinewidth=1.4, capsize=4,
+                    markeredgecolor=t["surface"], markeredgewidth=1.5)
+        a1.text(i, c3[2] + 0.012, f"{c3[0]:.2f}", ha="center", va="bottom", color=t["ink"], fontsize=9.5,
+                fontweight="bold" if is_prod else "normal")
+    a1.plot(range(len(rows)), [r["recall_at_3_ci"][0] for r in rows], color=t["muted"], lw=1, zorder=0)
+    a1.set_xticks(range(len(rows)))
+    a1.set_xticklabels([f"≤ {s}" for s in sizes], color=t["ink"])
+    a1.set_xlabel("section cut at N words")
+    a1.set_ylabel("recall@3 (95% CI)")
+    a1.set_ylim(0.6, 1.06)
+    a1.set_title("Recall: the gold value in the 3 passages")
+    a1.grid(axis="x", visible=False)
+    use_tok = all(r.get("max_prompt_tokens") for r in rows)
+    key, lab = (("max_prompt_tokens", "prompt tokens, worst case") if use_tok
+                else ("max_context_words_top3", "words in the 3 passages, worst case"))
+    vals = [r[key] for r in rows]
+    cols = [t["series"][1] if r["label"] == prod else t["series"][0] for r in rows]
+    a2.bar(range(len(rows)), vals, width=0.6, color=cols, edgecolor=t["surface"], linewidth=2)
+    for i, v in enumerate(vals):
+        a2.text(i, v + max(vals) * 0.02, f"{v:,}", ha="center", va="bottom", color=t["ink"], fontsize=9.5)
+    if use_tok:
+        for lim, name in ((3072, "run 1 limit 3,072"), (4608, "final limit 4,608")):
+            a2.axhline(lim, color=CRITICAL if lim == 3072 else t["muted"], lw=1.2, ls="--")
+            a2.text(-0.45, lim + max(vals) * 0.015, name, color=CRITICAL if lim == 3072 else t["muted"],
+                    fontsize=8.5, va="bottom")
+    a2.set_xticks(range(len(rows)))
+    a2.set_xticklabels([f"≤ {s}" for s in sizes], color=t["ink"])
+    a2.set_xlabel("section cut at N words")
+    a2.set_ylabel(lab)
+    a2.set_title("Cost: what the 1.7B student must read")
+    a2.grid(axis="x", visible=False)
+    a2.set_ylim(0, max(vals) * 1.15)
+    fig.suptitle("Chunk size: 200 words is where recall stops paying for length", x=0.01, ha="left",
+                 fontweight="bold", fontsize=13)
+    note(fig, f"BM25, {ab['n_papers']} gold papers, {rows[0]['n_fields']} present fields, no model involved; "
+              "tokens counted with the student's tokenizer. Source: docs/retrieval_ablation.json.", t)
+    fig.tight_layout()
+    derived["chunks"] = [{"size": r["size"], "recall_at_3": r["recall_at_3_ci"], key: r[key]} for r in rows]
+    save(fig, "fig8_chunks", theme)
+
+
+# ------------------------------------------------ fig 9 · agreement (kappa)
+def fig_kappa(reps, theme):
+    kt = derived.get("kappa") or kappa_table(reps)
+    derived["kappa"] = kt
+    rows = [(k.replace(" · value", ""), v) for k, v in kt.items() if k.endswith("· value")]
+    if not rows:
+        return "needs eval/report_*.json"
+    plt, t = plt_setup(theme)
+    pretty = {"student-lora": "LoRA", "student-base": "base", "teacher": "Claude",
+              "teacher-fable": "Fable", "gold": "gold set"}
+    lab = lambda k: " vs ".join(pretty.get(x, x) for x in k.split(" vs "))
+    fig, ax = plt.subplots(figsize=(9.5, 0.55 * len(rows) + 1.6))
+    for y, (k, v) in enumerate(reversed(rows)):
+        ours = k.startswith("student-lora")
+        col = t["series"][1] if ours else (t["series"][3] if "fable" in k else t["series"][0])
+        ax.plot(v["ci95"], [y, y], color=col, lw=2.2, solid_capstyle="round")
+        ax.scatter([v["kappa"]], [y], s=70, color=col, zorder=3, edgecolor=t["surface"], linewidth=2)
+        ax.text(v["ci95"][1] + 0.015, y, f"{v['kappa']:.2f}", va="center", color=t["ink"], fontsize=9.5,
+                fontweight="bold" if ours else "normal")
+    ax.axvline(0.6, color=t["muted"], ls="--", lw=1.2)
+    ax.set_ylim(-0.9, len(rows) - 0.5)
+    ax.text(0.607, -0.75, "0.6 = acceptable", color=t["muted"], fontsize=8.5)
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels([lab(k) for k, _ in reversed(rows)], color=t["ink"])
+    ax.set_xlim(0.2, 1.02)
+    ax.set_xlabel("Cohen's kappa on the value (dot), 95% bootstrap interval (bar)")
+    ax.grid(axis="y", visible=False)
+    ax.set_title("Agreement corrected for chance, 91 gold fields")
+    note(fig, "kappa = (po − pe) / (1 − pe). 47% of the gold fields are NOT_FOUND, so raw agreement "
+              "flatters everyone; kappa removes the agreement expected by chance.", t)
+    save(fig, "fig9_kappa", theme)
+
+
+# ------------------------------------------- fig 10 · the two teachers
+def fig_teachers(reps, theme):
+    if not {"teacher", "teacher-fable"} <= set(reps):
+        return "needs report_teacher.json and report_teacher-fable.json"
+    plt, t = plt_setup(theme)
+    order = [s for s in ("teacher", "teacher-fable", "student-lora") if s in reps]
+    colors = {"teacher": t["series"][2], "teacher-fable": t["series"][3], "student-lora": t["series"][1]}
+    names = {"teacher": "Claude (teacher)", "teacher-fable": "Claude Fable (2nd teacher)",
+             "student-lora": "Qwen3-1.7B + LoRA"}
+    rows = [m for m in METRICS if m[0] != "teacher_agreement"]
+    fig, ax = plt.subplots(figsize=(9.5, 0.72 * len(rows) + 1.6))
+    for i, (key, lbl, _f, up) in enumerate(rows):
+        y = len(rows) - 1 - i
+        for j, s in enumerate(order):
+            v = reps[s].get(key)
+            if not v:
+                continue
+            off = (j - (len(order) - 1) / 2) * 0.2
+            ax.plot([v[1], v[2]], [y + off, y + off], color=colors[s], lw=2, solid_capstyle="round")
+            ax.scatter([v[0]], [y + off], s=60, color=colors[s], zorder=3, edgecolor=t["surface"],
+                       linewidth=2, label=names[s] if i == 0 else None)
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels([r[1] + ("  ↓" if not r[3] else "") for r in reversed(rows)], color=t["ink"])
+    ax.set_xlim(-0.02, 1.02)
+    ax.set_xlabel("rate on the gold set (dot = mean, bar = 95% bootstrap interval)")
+    ax.grid(axis="y", visible=False)
+    d = paired_diff(field_vector(reps["teacher"], "correct"), field_vector(reps["teacher-fable"], "correct"))
+    derived["teachers"] = {"fable_minus_claude_correct": d}
+    ax.set_title("Two teachers, same passages")
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=3)
+    if d:
+        note(fig, f"Correct field, Fable − Claude, paired over {d[3]} fields: {d[0]:+.2f} [{d[1]:+.2f}, {d[2]:+.2f}]: "
+                  "no difference shown.", t, y=-0.08)
+    save(fig, "fig10_teachers", theme)
+
+
+# ------------------------------------------- fig 11 · security scorecard
+SHORT = {
+    "A1": "order with\nkeywords", "A2": "order without\nkeywords", "A3": "zero-width\ncharacters",
+    "A4": "look-alike\nletters", "A5": "fake chat\nturn", "A6": "system prompt\nleak",
+    "B1": "look-alike\nvalue", "B2": "keyword\nstuffing", "B3": "forged\nquote",
+    "B4": "poisoned\ntraining label", "C1": "code in\na value", "C2": "Markdown\nexfiltration",
+    "C3": "compute\nexhaustion", "C4": "context\nflooding", "D1": "10\njailbreaks",
+    "D2": "script\ninjection", "E1": "internal doc\nto the API", "E2": "personal\ndata",
+    "E3": "API keys\nin files", "F1": "swapped\nweights",
+}
+ENTRY = [("A", "Document → model"), ("B", "False data"), ("C", "Output → screen, code"),
+         ("D", "Voice module"), ("E", "Data leaving"), ("F", "Supply chain")]
+
+
+def fig_security(theme):
+    p = ROOT / "docs/security_results.json"
+    if not p.exists():
+        return "needs docs/security_results.json (scripts/security_eval.py)"
+    sec = json.loads(p.read_text())
+    if "summary" not in sec:
+        return "old security_results.json: rerun scripts/security_eval.py"
+    rows, sm = sec["attacks"], sec["summary"]
+    from matplotlib.patches import FancyBboxPatch, Patch
+    plt, t = plt_setup(theme)
+    colour = {"blocked": t["series"][2], "detected": t["series"][3], "passed": CRITICAL, "n/a": NEUTRAL}
+    fig, ax = plt.subplots(figsize=(11, 5.6))
+    W, H, GAP = 1.55, 0.78, 0.12
+    for gy, (g, label) in enumerate(ENTRY):
+        y = len(ENTRY) - 1 - gy
+        ax.text(-0.15, y + H / 2, label, ha="right", va="center", fontsize=11, color=t["ink"])
+        for gx, r in enumerate([r for r in rows if r["id"].startswith(g)]):
+            x = gx * (W + GAP)
+            ax.add_patch(FancyBboxPatch((x, y), W, H, boxstyle="round,pad=0,rounding_size=0.08",
+                                        facecolor=colour[r["outcome"]], edgecolor="none"))
+            ink = "#ffffff" if r["outcome"] != "detected" else "#1a1a19"
+            ax.text(x + 0.1, y + H - 0.12, f"{r['id']} · {r['owasp']}", ha="left", va="top",
+                    fontsize=7.5, color=ink, fontweight="bold")
+            ax.text(x + 0.1, y + 0.1, SHORT.get(r["id"], r["attack"][:24]), ha="left", va="bottom",
+                    fontsize=8.6, color=ink, linespacing=1.05)
+    ax.set_xlim(-2.6, 6 * (W + GAP))
+    ax.set_ylim(-0.25, len(ENTRY))
+    ax.axis("off")
+    lo, hi = sm["asr_ci95"]
+    ax.set_title(f"{sm['attacks']} attacks: {sm['blocked']} blocked, {sm['detected']} detected, "
+                 f"{sm['passed']} passed  ·  success rate {sm['passed']}/{sm['attacks']}, "
+                 f"95% CI [{lo:.1%}, {hi:.0%}]", x=0.0, pad=12)
+    ax.legend(handles=[Patch(color=colour["blocked"], label="blocked: no effect"),
+                       Patch(color=colour["detected"], label="detected: flagged or refused"),
+                       Patch(color=colour["passed"], label="passed: changes the result")],
+              loc="upper center", bbox_to_anchor=(0.5, 0.0), ncol=3)
+    se = sec["side_effects"]
+    note(fig, f"OWASP Top 10 for LLM Applications 2025. Side effect on the 120-paper corpus: "
+              f"{se['changed_by_new_guards']} of {se['passages']} passages changed by the new guards. "
+              "Source: docs/security_results.json (scripts/security_eval.py, no model).", t, y=-0.02)
+    derived["security"] = sm
+    save(fig, "fig11_security", theme)
+
+
+# ------------------------------------------------- Cohen's kappa (no figure)
+def kappa_table(reps) -> dict:
+    """Cohen's kappa: agreement corrected for chance, on the 91 gold fields.
+    'value' compares the normalised values (NOT_FOUND is one category);
+    'decision' compares only found / NOT_FOUND. 95% bootstrap over fields."""
+    import collections
+    from eval import normalise
+    if not reps:
+        return {}
+    nf = normalise("NOT_FOUND")
+    any_rep = next(iter(reps.values()))
+    V = {"gold": {(p["paper_id"], f): normalise(p["fields"][f]["gold"])
+                  for p in any_rep["per_paper"] for f in FIELDS}}
+    for s, rep in reps.items():
+        V[s] = {(p["paper_id"], f): normalise(p["fields"][f]["value"]) for p in rep["per_paper"] for f in FIELDS}
+
+    def k(a, b, keys, decision):
+        x = [(a[q] != nf) if decision else a[q] for q in keys]
+        y = [(b[q] != nf) if decision else b[q] for q in keys]
+        n = len(keys)
+        po = sum(i == j for i, j in zip(x, y)) / n
+        cx, cy = collections.Counter(x), collections.Counter(y)
+        pe = sum(cx[c] * cy[c] for c in cx) / n / n
+        return po, (po - pe) / (1 - pe) if pe < 1 else None
+
+    out = {}
+    pairs = [("student-lora", "teacher"), ("student-base", "teacher"),
+             ("student-lora", "gold"), ("student-base", "gold"), ("teacher", "gold"),
+             ("teacher-fable", "teacher"), ("teacher-fable", "gold")]
+    for a, b in pairs:
+        if a not in V or b not in V:
+            continue
+        keys = sorted(set(V[a]) & set(V[b]))
+        for decision in (False, True):
+            po, kap = k(V[a], V[b], keys, decision)
+            rng = random.Random(0)
+            boots = sorted(k(V[a], V[b], rng.choices(keys, k=len(keys)), decision)[1] or 0 for _ in range(2000))
+            out[f"{a} vs {b} · {'decision' if decision else 'value'}"] = {
+                "agreement": round(po, 3), "kappa": round(kap, 3),
+                "ci95": [round(boots[50], 3), round(boots[1949], 3)], "n": len(keys)}
+    return out
+
+
 # --------------------------------------------------------------------- main
 CAPTIONS = {
     "fig1_distillation": "Base student, distilled student and teacher on the same passages.",
@@ -579,6 +811,10 @@ CAPTIONS = {
     "fig5_fields": "Correct fields per setting and system.",
     "fig6_red_team": "The five attacks of the red team, per system.",
     "fig7_voice": "Voice module: word error rate, intent accuracy, recognition latency.",
+    "fig9_kappa": "Cohen's kappa between every pair of systems and the gold set.",
+    "fig10_teachers": "The two teachers and the student on the same passages.",
+    "fig11_security": "Security suite: each attack and the defence layer that stops it.",
+    "fig8_chunks": "Chunk size up to 400 words: recall@3 against the longest prompt the student must read.",
 }
 
 
@@ -590,7 +826,11 @@ def main() -> int:
             ("fig4_retrieval", fig_retrieval),
             ("fig5_fields", lambda th: fig_fields(reps, th)),
             ("fig6_red_team", fig_red_team),
-            ("fig7_voice", fig_voice)]
+            ("fig7_voice", fig_voice),
+            ("fig8_chunks", fig_chunks),
+            ("fig9_kappa", lambda th: fig_kappa(reps, th)),
+            ("fig10_teachers", lambda th: fig_teachers(reps, th)),
+            ("fig11_security", fig_security)]
     made = []
     for name, fn in jobs:
         status = None
@@ -604,6 +844,9 @@ def main() -> int:
         print(f"{name:<20} {'skipped · ' + status if status else 'ok'}")
         if not status:
             made.append(name)
+    derived["kappa"] = derived.get("kappa") or kappa_table(reps)
+    for name, v in derived["kappa"].items():
+        print(f"kappa  {name:<40} {v['kappa']:.2f} [{v['ci95'][0]:.2f} – {v['ci95'][1]:.2f}]")
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "metrics.json").write_text(json.dumps(derived, indent=2, ensure_ascii=False, default=str))
     L = ["# Figures", "", "*Generated by `scripts/figures.py` from the measurement files. "

@@ -59,6 +59,18 @@ def flat(t: str) -> str:
     return re.sub(r"\s+", " ", t).strip().lower()
 
 
+def label_check(value: str, quote: str, sources: str) -> str | None:
+    """Rejection filter for one teacher answer (also replayed by
+    scripts/security_eval.py, attack B4: a poisoned label). None = kept."""
+    if value == NOT_FOUND:
+        return None
+    if len(quote) < 10 or flat(quote) not in flat(sources):
+        return "quote not in the passages"
+    if normalise(value) not in normalise(quote):
+        return "value not in its own quote"
+    return None
+
+
 def read_jsonl(p: Path) -> list[dict]:
     if not p.exists():
         return []
@@ -104,13 +116,10 @@ def main() -> int:
         value = str(t.get("value", "")).strip() or NOT_FOUND
         quote = str(t.get("quote", "")).strip()
         sources = p["messages"][1]["content"]
-        if value != NOT_FOUND:
-            if len(quote) < 10 or flat(quote) not in flat(sources):
-                why["quote not in the passages"] += 1
-                continue
-            if normalise(value) not in normalise(quote):
-                why["value not in its own quote"] += 1
-                continue
+        reason = label_check(value, quote, sources)
+        if reason:
+            why[reason] += 1
+            continue
         card = cards.get((p["paper_id"], p["model"]))
         if card and not args.keep_disagreements:
             ref = (card.get(p["field"]) or {}).get("value", NOT_FOUND)

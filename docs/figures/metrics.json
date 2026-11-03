@@ -71,10 +71,213 @@
       "wrong": 0,
       "abstain": 11,
       "invent": 1
+    },
+    "teacher-fable": {
+      "correct": 71,
+      "retrieval": 5,
+      "wrong": 4,
+      "abstain": 9,
+      "invent": 2
     }
   },
   "red_team": {
     "student_held": 7,
     "checks": 9
+  },
+  "chunks": [
+    {
+      "size": 50,
+      "recall_at_3": [
+        0.833,
+        0.729,
+        0.938
+      ],
+      "max_prompt_tokens": 1129
+    },
+    {
+      "size": 100,
+      "recall_at_3": [
+        0.875,
+        0.771,
+        0.958
+      ],
+      "max_prompt_tokens": 1522
+    },
+    {
+      "size": 150,
+      "recall_at_3": [
+        0.896,
+        0.792,
+        0.979
+      ],
+      "max_prompt_tokens": 2572
+    },
+    {
+      "size": 200,
+      "recall_at_3": [
+        0.896,
+        0.812,
+        0.979
+      ],
+      "max_prompt_tokens": 2633
+    },
+    {
+      "size": 300,
+      "recall_at_3": [
+        0.896,
+        0.812,
+        0.979
+      ],
+      "max_prompt_tokens": 3463
+    },
+    {
+      "size": 400,
+      "recall_at_3": [
+        0.938,
+        0.854,
+        1.0
+      ],
+      "max_prompt_tokens": 4862
+    }
+  ],
+  "kappa": {
+    "student-lora vs teacher · value": {
+      "agreement": 0.835,
+      "kappa": 0.731,
+      "ci95": [
+        0.604,
+        0.841
+      ],
+      "n": 91
+    },
+    "student-lora vs teacher · decision": {
+      "agreement": 0.89,
+      "kappa": 0.768,
+      "ci95": [
+        0.616,
+        0.888
+      ],
+      "n": 91
+    },
+    "student-base vs teacher · value": {
+      "agreement": 0.615,
+      "kappa": 0.448,
+      "ci95": [
+        0.321,
+        0.568
+      ],
+      "n": 91
+    },
+    "student-base vs teacher · decision": {
+      "agreement": 0.758,
+      "kappa": 0.526,
+      "ci95": [
+        0.366,
+        0.687
+      ],
+      "n": 91
+    },
+    "student-lora vs gold · value": {
+      "agreement": 0.714,
+      "kappa": 0.596,
+      "ci95": [
+        0.465,
+        0.709
+      ],
+      "n": 91
+    },
+    "student-lora vs gold · decision": {
+      "agreement": 0.813,
+      "kappa": 0.63,
+      "ci95": [
+        0.467,
+        0.778
+      ],
+      "n": 91
+    },
+    "student-base vs gold · value": {
+      "agreement": 0.56,
+      "kappa": 0.429,
+      "ci95": [
+        0.309,
+        0.543
+      ],
+      "n": 91
+    },
+    "student-base vs gold · decision": {
+      "agreement": 0.769,
+      "kappa": 0.537,
+      "ci95": [
+        0.358,
+        0.697
+      ],
+      "n": 91
+    },
+    "teacher vs gold · value": {
+      "agreement": 0.813,
+      "kappa": 0.728,
+      "ci95": [
+        0.589,
+        0.836
+      ],
+      "n": 91
+    },
+    "teacher vs gold · decision": {
+      "agreement": 0.813,
+      "kappa": 0.632,
+      "ci95": [
+        0.468,
+        0.779
+      ],
+      "n": 91
+    },
+    "teacher-fable vs teacher · value": {
+      "agreement": 0.912,
+      "kappa": 0.857,
+      "ci95": [
+        0.758,
+        0.942
+      ],
+      "n": 91
+    },
+    "teacher-fable vs teacher · decision": {
+      "agreement": 0.956,
+      "kappa": 0.907,
+      "ci95": [
+        0.806,
+        0.978
+      ],
+      "n": 91
+    },
+    "teacher-fable vs gold · value": {
+      "agreement": 0.78,
+      "kappa": 0.69,
+      "ci95": [
+        0.56,
+        0.8
+      ],
+      "n": 91
+    },
+    "teacher-fable vs gold · decision": {
+      "agreement": 0.835,
+      "kappa": 0.674,
+      "ci95": [
+        0.516,
+        0.821
+      ],
+      "n": 91
+    }
+  },
+  "teachers": {
+    "fable_minus_claude_correct": [
+      -0.033,
+      -0.088,
+      0.011,
+      91
+    ]
+  },
+  "security": {
+    "held": 8,
+    "total": 8
   }
 }

@@ -1,0 +1,8 @@
+{"paper_id": "2602.15700", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "basis":        {"value": "6-31+G**", "chunk_id": "2602.15700#18", "quote": "All calculations used the 6-31+G** basis set."},
+  "dispersion":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "solvation":    {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "charge":       {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "multiplicity": {"value": "1", "chunk_id": "2602.15700#18", "quote": "State-averaged calculations were performed for the two lowest singlet states, _S_ 0 and _S_ 1."},
+  "software":     {"value": "Gellan", "chunk_id": "2602.15700#18", "quote": "SACIS and SAECIS, together with their analytical nuclear gradients, were implemented in the Gellan suite of programs,<sup>52</sup> and all calculations were performed with this code except for SA-CASSCF and SF-TDDFT, which were carried out with OpenMolcas<sup>53</sup> and ORCA<sup>54</sup> , respectively."}}}

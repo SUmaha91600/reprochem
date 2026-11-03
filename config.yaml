@@ -73,6 +73,7 @@ teacher:
   temperature: 0
   max_tokens: 2000
   max_context_tokens: 150000
+  anonymize: true          # pseudonymise authors, e-mails, phones, URLs before any API call (app/anonymize.py)
   timeout: 300
   max_retries: 3
   # Internal documents: false until the written authorisation is signed.

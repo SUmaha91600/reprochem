@@ -86,6 +86,26 @@ fields and **80%** on invented values. Speed is unchanged (19.8 s against
 **+0.10 [+0.03, +0.17]** (paired). On invented values the remaining gap,
 −0.05 [−0.12, 0.00], is not shown to be different from zero.
 
+**Agreement corrected for chance (Cohen's kappa).** Raw agreement flatters a
+system on a gold set that is 47% `NOT_FOUND`: answering `NOT_FOUND` often
+agrees often by chance. Kappa removes that share. Computed on the 91 fields
+by `scripts/figures.py` (`metrics.json`), 95% bootstrap over fields; 0.6 is
+the usual threshold for acceptable agreement (0.61 – 0.80 is "substantial"
+on the Landis & Koch scale).
+
+| Pair | κ on the value | κ on the decision (found / `NOT_FOUND`) |
+|---|---|---|
+| LoRA vs teacher | **0.73 [0.60 – 0.84]** | 0.77 [0.62 – 0.89] |
+| base vs teacher | 0.45 [0.32 – 0.57] | 0.53 [0.37 – 0.69] |
+| LoRA vs gold set | 0.60 [0.47 – 0.71] | 0.63 [0.47 – 0.78] |
+| base vs gold set | 0.43 [0.31 – 0.54] | 0.54 [0.36 – 0.70] |
+| teacher vs gold set | 0.73 [0.59 – 0.84] | 0.63 [0.47 – 0.78] |
+
+Distillation takes the student from moderate (0.45) to substantial (0.73)
+agreement with its teacher; the whole interval of the LoRA row sits at or
+above 0.6. Against the gold set, the student reaches 0.60, but its interval
+still goes down to 0.47: on 13 papers, crossing the threshold is not shown.
+
 **One metric did not improve.** The value appears inside its own quote in
 0.73 of the LoRA answers against 0.82 for the base. Paired on the 33 fields
 where both answered, the difference is −0.03 [−0.21, +0.15]: no difference is
@@ -102,6 +122,22 @@ gold set.
 `fig4_retrieval.png`): BM25 places the gold value in its 3 passages for
 43 of the 48 present fields (0.90 [0.81 – 0.98]). This is the ceiling of any
 model placed after it.
+
+**BM25 against embeddings, same chunks, same 48 fields.** bge-m3 (through
+Ollama) reaches 0.73 [0.60 – 0.83] at recall@3, and the hybrid (RRF of both)
+0.79 [0.67 – 0.90]. Paired over the 48 fields, BM25 − bge-m3 is
+**+0.17 [+0.04, +0.31]**: the interval excludes 0. BM25 finds 10 fields the
+embeddings miss; the reverse happens twice. The gap sits on the
+notation-heavy fields: basis set 11/12 against 8/12, multiplicity 4/4
+against 1/4. BM25 − hybrid is +0.10 [−0.02, +0.21], not shown. This
+reverses the 7 October course lab, where bge-m3 beat BM25 on regulation
+text: on chemistry settings written as exact strings, lexical matching wins.
+
+**Prompt length with the student's tokenizer.** Sections of at most 200
+words give prompts of 1,634 tokens (median) and 2,633 at most, under the
+3,072-token limit of the first training run. Never splitting sections gives
+15,071 tokens in the worst case; 400-word sections, 4,862, beyond even the
+4,608 limit of the final run.
 
 ## 6 · Errors
 

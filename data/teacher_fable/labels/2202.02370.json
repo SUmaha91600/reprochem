@@ -1,0 +1,8 @@
+{"paper_id": "2202.02370", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "B3LYP", "chunk_id": "2202.02370#3", "quote": "Density functional theory (B3LYP) was employed for the geometry optimization of the proposed molecular structure using the 6-311++G(d,p) basis set."},
+  "basis":        {"value": "6-311++G(d,p)", "chunk_id": "2202.02370#3", "quote": "Density functional theory (B3LYP) was employed for the geometry optimization of the proposed molecular structure using the 6-311++G(d,p) basis set."},
+  "dispersion":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "solvation":    {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "charge":       {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "multiplicity": {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "software":     {"value": "Gaussian 09", "chunk_id": "2202.02370#6", "quote": "Molecular structures were optimized using quantum mechanics based calculations by employing Gaussian 09 [6]."}}}

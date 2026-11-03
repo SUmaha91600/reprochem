@@ -29,6 +29,9 @@ class Citation(BaseModel):
     chunk_id: str
     quote: str = Field(min_length=10, max_length=400)
     score: float = 0.0
+    # Set at extraction: is the quote really in the passages, and the value in
+    # the quote? False is shown to the user as an unverified citation (B3).
+    verified: Optional[bool] = None
 
 
 class Field_(BaseModel):
@@ -68,8 +71,9 @@ class JobSpec(BaseModel):
     task: Literal["single_point", "geometry_optimisation"]
     functional: str
     basis: str
-    charge: int
-    multiplicity: int = Field(ge=1)
+    # C1: bounds, so that an absurd extracted number cannot reach the script.
+    charge: int = Field(ge=-20, le=20)
+    multiplicity: int = Field(ge=1, le=20)
     dispersion: Optional[str] = None
     solvent: Optional[str] = None
 

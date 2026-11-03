@@ -1,0 +1,8 @@
+{"paper_id": "2207.04987", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "basis":        {"value": "cc-pVTZ", "chunk_id": "2207.04987#65", "quote": "The B3LYP functional with the cc-pVTZ basis set and GD3BJ empirical dispersion was found to closely approach the experimental data and have been used for all final optimisation steps and frequency analysis."},
+  "dispersion":   {"value": "GD3BJ", "chunk_id": "2207.04987#65", "quote": "The B3LYP functional with the cc-pVTZ basis set and GD3BJ empirical dispersion was found to closely approach the experimental data and have been used for all final optimisation steps and frequency analysis."},
+  "solvation":    {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "charge":       {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "multiplicity": {"value": "1", "chunk_id": "2207.04987#20", "quote": "The latter do not impact our results as we assume closed shell singlet clusters throughout our calculations."},
+  "software":     {"value": "NOT_FOUND", "chunk_id": "", "quote": ""}}}

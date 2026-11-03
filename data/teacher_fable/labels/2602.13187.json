@@ -1,0 +1,8 @@
+{"paper_id": "2602.13187", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "B3LYP", "chunk_id": "2602.13187#22", "quote": "The reactant and product geometries used in the NEB calculation were optimized at the B3LYP/cc-pVTZ level, with the optimized structures provided in the Supplementary Information."},
+  "basis":        {"value": "cc-pVXZ", "chunk_id": "2602.13187#11", "quote": "All calculations used Dunning’s cc-pVXZ basis set, with density-fitted integrals in Cholesky-decomposed form."},
+  "dispersion":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "solvation":    {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "charge":       {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "multiplicity": {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "software":     {"value": "PySCF", "chunk_id": "2602.13187#11", "quote": "All HF, DFT calculations and required integrals were obtained using PySCF,<sup>52</sup> and the AFQMC code is available in a public repository.<sup>53</sup>"}}}

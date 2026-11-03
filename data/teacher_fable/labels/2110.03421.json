@@ -1,0 +1,8 @@
+{"paper_id": "2110.03421", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "B3LYP", "chunk_id": "2110.03421#6", "quote": "The lowest energy structures were re-optimized at B3LYP/6-311+G(3df) level to obtain the equilibrium structures of M(BO) _k_ +1‾ anions for M = Li, Na, K, Be, Mg, Ca, B, and Al."},
+  "basis":        {"value": "6-311+G(3df)", "chunk_id": "2110.03421#6", "quote": "The lowest energy structures were re-optimized at B3LYP/6-311+G(3df) level to obtain the equilibrium structures of M(BO) _k_ +1‾ anions for M = Li, Na, K, Be, Mg, Ca, B, and Al."},
+  "dispersion":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "solvation":    {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "charge":       {"value": "-1", "chunk_id": "2110.03421#4", "quote": "This motivated us to perform a systematic study on M(BO) _k_ +1‾ anions for M = Li, Na, K, Be, Mg, Ca, B, and Al."},
+  "multiplicity": {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "software":     {"value": "Gaussian 09", "chunk_id": "2110.03421#6", "quote": "All these computations were performed with the aid of the Gaussian 09 [37] program."}}}

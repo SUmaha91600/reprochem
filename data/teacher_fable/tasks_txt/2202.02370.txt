@@ -1,0 +1,45 @@
+DOCUMENT 2202.02370
+
+FIELD functional: passages = 2202.02370#3, 2202.02370#14, 2202.02370#8
+FIELD basis: passages = 2202.02370#3, 2202.02370#6, 2202.02370#8
+FIELD dispersion: passages = 2202.02370#0, 2202.02370#1, 2202.02370#2
+FIELD solvation: passages = 2202.02370#0, 2202.02370#1, 2202.02370#2
+FIELD charge: passages = 2202.02370#8, 2202.02370#10, 2202.02370#3
+FIELD multiplicity: passages = 2202.02370#0, 2202.02370#1, 2202.02370#2
+FIELD software: passages = 2202.02370#3, 2202.02370#6, 2202.02370#13
+
+===== PASSAGE [2202.02370#3] =====
+**Abstract**
+Carbon-based caged and heterocyclic compounds tend to have strained molecular structures leading to high heats of formation and energetic behavior. In the current paper, molecular modelling calculations for 10 caged compounds of this type along with 2 strained aliphatic compounds and 4 simple cyclic chains are presented in view of their possible use as oxidizers in propulsion applications. Density functional theory (B3LYP) was employed for the geometry optimization of the proposed molecular structure using the 6-311++G(d,p) basis set. Heats of formation of the compounds were calculated using the molecular modeling results and their specific impulses were computed using the NASA CEA [1] software package to evaluate their potentials as propellant oxidizers.
+
+===== PASSAGE [2202.02370#14] =====
+**4  Conclusions**
+The intent of the ideation, computation and analysis work presented here is to identify new series of compounds as potential oxidizers in propulsion applications. Quantum mechanics based computations to calculate the heats of formation of the proposed molecular structures were undertaken. Resulting enthalpies were further used to calculate propulsive parameters i.e. characteristic velocity and specific impulse. Our conclusions can be summarized as follows: 1. Substitution of nitro and nitrato groups substantially increase the propulsive performance of compounds. 2. Direct correlation between high enthalpies of formation and specific impulses cannot be obtained. 3. Cage compounds have the potential to perform better than ammonium perchlorate as propellant oxidizers. 4. Aliphatic and simple cyclic chains also indicate similar performance due to the high oxygen balance. 5. Calculation results presented in this work look promising. However, ease of chemical synthesis, cost, stability and compatibility with other propellant ingredients are other factors that will have to be considered.
+
+===== PASSAGE [2202.02370#8] =====
+**3  Results and Discussion**
+**Table 4:** Thermodynamic and propulsive properties of the maleic anhydride derivatives The compounds listed in Table 1 were optimized and their thermodynamic and propulsive properties were calculated. The specific impulse of these compounds were estimated by considering them to be mixed with HTPB (11% by wt.) as binder and Al (18 % by wt.) particles as fuel. Each of the oxidizers occupied 68% by wt. of the total propellant mixture. Dioctyl adipate (DOA) was considered as the plasticizer contributing to 3% by wt. The chamber pressure and temperature were set to 68.9 bar (1000 psi) and 3800K respectively during the simulations. Pressure ratio was set to 68 for the calculations. Relevant data for AP is tabulated in Table 2 for comparison with the respective properties of the analyzed novel compounds.
+
+===== PASSAGE [2202.02370#6] =====
+**2  Computational method**
+Molecular structures were optimized using quantum mechanics based calculations by employing Gaussian 09 [6]. We have employed B3LYP/6-311++G(d,p) level of theory consisting of triple split valence basis set with additional polarized functions. Our choice of the aforementioned level of theory is to maintain a balance between computational time and accuracy. Propulsive properties were calculated using NASA CEA on the basis of heats calculated using Gaussian. The detailed procedure of all calculations is described in our previous work [5]. |**Sr**<br>**No.**|**Structure**|**Name**| |---|---|---| ||Glycouril derivatives|| |1.||S3-2| Neeraj Kumbhakarna Fax: +91-22-2572-6875 E-mail address: neeraj[underscore]k@iitb.ac.in <!-- Start of picture text --> 2. S3-3<br>3. S3-4<br>4. S3-5<br>5. S3-15<br>Maleic anhydride derivatives<br>6. S4-1<br>7. S4-3<br><!-- End of picture text --> <!-- Start of picture text --> 8. S4-5<br>9. S4-7<br><!-- End of picture text --> <!-- Start of picture text --> Aliphatic structures<br>10. S7-2<br>11. S7-3<br>Simple cyclic and heterocyclic<br>12. S6-1<br>13. S6-2<br>14. S6-3<br>15. S6-7<br>1,3-bishomocubane derivative<br><!-- End of picture text --> <!-- Start of picture text --> NO2<br>NO2<br>O2N<br>16. NO2 P101<br>O2N NO2<br>O2N NO2<br><!-- End of picture text --> **Table 1:** Molecular structures of promising compounds Analysis of all the compounds in this class are indicative of good propulsive performance. However, only the ones which have their calculated specific impulses higher than AP have been reported.
+
+===== PASSAGE [2202.02370#0] =====
+head
+12<sup>th</sup> Asia-Pacific Conference on Combustion, Fukuoka International Congress Center, Fukuoka, Japan 1<sup>st</sup> -5<sup>th</sup> July 2019.
+
+===== PASSAGE [2202.02370#1] =====
+**A Search for Alternative Solid Rocket Propellant Oxidizers**
+**Pujan Biswas**<sup>**1**</sup> **, Parmanand Ahirwar**<sup>**2**</sup> **, S. Nandagopal**<sup>**4**</sup> **, Arvind Kumar**<sup>**4**</sup> **, I. N. N. Namboothiri**<sup>**3**</sup> **, Arindrajit**
+
+===== PASSAGE [2202.02370#2] =====
+**Chowdhury**<sup>**2**</sup> **, Neeraj Kumbhakarna**<sup>**2**</sup>
+1 Department of Aerospace Engineering, IIT Bombay 2 Department of Mechanical Engineering, IIT Bombay 3 Department of Chemistry, IIT Bombay Powai, Mumbai, Maharashtra, 400076, India 4 High Energy Materials Research Laboratory, DRDO Pashan, Pune, Maharashtra, 411021, India
+
+===== PASSAGE [2202.02370#10] =====
+**3.1  Glycouril derivatives**
+Glycouril is a monomeric unit of cucurbutiril which was analyzed due to its compact structure and presence of nitrogen and oxygen atoms in the ring. The calculated data of the optimized structures are suggestive of high positive enthalpies of formation. The glycouril derivatives mentioned in Table 1 are either planar substituted glycouril structures or tricyclic structures. It was noted that S3-5 and S3-15 produce the highest specific impulses of the group. The larger number of nitrato groups along with steric hindrance in S3-15 can be a plausible explanation of this observation. **A = Compound, B = HoF (kJ/mol), C = Characteristic velocity (m/s),** **D = OB (%), E = Specific impulse (s)** **Table 5:** Thermodynamic and propulsive properties of aliphatic structures
+
+===== PASSAGE [2202.02370#13] =====
+**3.5  1,3-bishomocubane derivative**
+[5] L. Mallick, S. Lal, S. Reshmi, I.N.N. Namboothiri, A. Chowdhury, N. Kumbhakarna, New J. Chem. 41 (3) (2017) 920930 Bishomocubane derivatives (BHCD) show promising results for their selection as propellant oxidizers. As these compounds are highly strained cage molecules that have a significant number of positions available for substitution, such characteristic can be expected. P101 is a nitro substituted BHCD but as indicated from the results in sections 3.1 and 3.2, nitrato substituted BHCD’s can also prove to be potential oxidizer candidates. [6] M. J. Frisch, G. W. Trucks, H. B. Schlegel, et al, Gaussian 09, Revision B.01, Gaussian, Inc., Wallingford CT (2009). |**A**|**B**|**C**|**D**|**F**| |---|---|---|---|---| |P101|-221.42|1659.3|-19.51|275.6| **A = Compound, B = HoF (kJ/mol), C = Characteristic velocity (m/s), D = OB (%), E = Density (gm/cm**<sup>**3**</sup> **), F = Specific impulse (s)** **Table 7:** Thermodynamic and propulsive properties of 1,3-bishomocubane derivative The list of compounds presented above is representative of the extensive search that we carried out. We are also in the process of carrying out lab scale synthesis of these compounds with limited success till date.

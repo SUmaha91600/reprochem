@@ -4,6 +4,7 @@
 #   bash scripts/publish_github.sh              # private repo named "reprochem"
 #   bash scripts/publish_github.sh --public     # public repo
 #   REPO=other-name bash scripts/publish_github.sh
+#   MSG="Security: 20 attacks" bash scripts/publish_github.sh   # own commit message
 #
 # Safe to run again: it commits what changed and pushes. It refuses to publish if
 # anything that looks like an API key is in the files, or if .env would be committed.
@@ -25,10 +26,10 @@ if git ls-files --cached | grep -qE '(^|/)\.env$'; then
   echo ".env is staged: check .gitignore. Nothing was published."; git reset -q; exit 1
 fi
 if ! git diff --cached --quiet; then
-  git commit -q -m "ReproChem: final submission for the Generative AI course
+  git commit -q -m "${MSG:-ReproChem: final submission for the Generative AI course
 
 Distilled method-card extractor (Claude teacher, Qwen3-1.7B + LoRA student),
-gold set, benchmark, red team, and the ReproChem Lens voice explainer.
+gold set, benchmark, red team, and the ReproChem Lens voice explainer.}
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01CHckbjix3UshYTCMFUrvvR"

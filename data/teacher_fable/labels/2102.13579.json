@@ -1,0 +1,8 @@
+{"paper_id": "2102.13579", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "B3LYP", "chunk_id": "2102.13579#15", "quote": "Throughout our current presentation, we use the recommended values of a0, ax, ac, as advocated in [50], i.e., 0.2, 0.72, 0.81 for B3LYP."},
+  "basis":        {"value": "cc-pVDZ", "chunk_id": "2102.13579#21", "quote": "All the molecular geometry of Table III are taken from [60] whereas for Table IV, these are optimized with B3LYP and cc-pVDZ basis set using GAMESS."},
+  "dispersion":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "solvation":    {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "charge":       {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "multiplicity": {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "software":     {"value": "NOT_FOUND", "chunk_id": "", "quote": ""}}}

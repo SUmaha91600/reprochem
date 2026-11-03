@@ -1,0 +1,8 @@
+{"paper_id": "1512.08572", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "B3LYP", "chunk_id": "1512.08572#10", "quote": "Finally, we re-optimized by density functional theory of B3LYP functional using 6-31G* basis set."},
+  "basis":        {"value": "6-31G*", "chunk_id": "1512.08572#10", "quote": "Finally, we re-optimized by density functional theory of B3LYP functional using 6-31G* basis set."},
+  "dispersion":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "solvation":    {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "charge":       {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "multiplicity": {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "software":     {"value": "NOT_FOUND", "chunk_id": "", "quote": ""}}}

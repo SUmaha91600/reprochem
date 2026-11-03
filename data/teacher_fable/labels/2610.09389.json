@@ -1,0 +1,8 @@
+{"paper_id": "2610.09389", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "PBE", "chunk_id": "2610.09389#47", "quote": "of all molecules were optimized using the gradient minimization technique to find stable ground state configurations using computationally cheap generalized-gradient approximation (GGA) PBE exchange-correlation (XC) energy functional [9, 10] with Karlsruhe atomic orbital (AO) split-valence basis set def2-SVP [11]."},
+  "basis":        {"value": "def2-SVP", "chunk_id": "2610.09389#47", "quote": "of all molecules were optimized using the gradient minimization technique to find stable ground state configurations using computationally cheap generalized-gradient approximation (GGA) PBE exchange-correlation (XC) energy functional [9, 10] with Karlsruhe atomic orbital (AO) split-valence basis set def2-SVP [11]."},
+  "dispersion":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "solvation":    {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "charge":       {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "multiplicity": {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "software":     {"value": "TURBOMOLE", "chunk_id": "2610.09389#46", "quote": "All quantum chemistry calculations in this work have been performed with the development version of the electronic structure program TURBOMOLE [5, 6] that is developed at our university, the Karlsruhe Institute of Technology."}}}

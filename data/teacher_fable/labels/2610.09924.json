@@ -1,0 +1,8 @@
+{"paper_id": "2610.09924", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "basis":        {"value": "def2-TZVPPD", "chunk_id": "2610.09924#5", "quote": "The monomer geometry is optimized at the B3LYP/def2-TZVPPD level,[63–65] the _π_ - _π_ stacking distance of 4 _._ 72<sup>˚</sup> A is determined by a fragment-constrained dimer geometry optimization at the _r_<sup>2</sup> SCAN-3c level,[66] and the lateral distance of 25 _._ 43<sup>˚</sup> A is determined by a potential energy surface scan using _r_<sup>2</sup> SCAN-3c.[66]"},
+  "dispersion":   {"value": "D4", "chunk_id": "2610.09924#54", "quote": "The Cy7-DiMePh monomer is optimized using the ORCA 6.0 package at the B3LYP/def2-TZVPPD level with the D4 dispersion correction and an implicit methanol environment.[1–5]"},
+  "solvation":    {"value": "implicit solvent (water)", "chunk_id": "2610.09924#58", "quote": "Both the constrained dimer optimization and the lateral potential energy surface scan S7 are performed in the ORCA 6.0 package using the _r_<sup>2</sup> SCAN-3c method with an implicit water solvent.[4, 5, 8]"},
+  "charge":       {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "multiplicity": {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "software":     {"value": "ORCA 6.0", "chunk_id": "2610.09924#58", "quote": "Both the constrained dimer optimization and the lateral potential energy surface scan S7 are performed in the ORCA 6.0 package using the _r_<sup>2</sup> SCAN-3c method with an implicit water solvent.[4, 5, 8]"}}}

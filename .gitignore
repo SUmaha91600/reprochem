@@ -34,3 +34,5 @@ ReproChem_scoping_canvas.pdf
 # Local clutter
 .Rhistory
 scripts/mac_bench 2.sh
+# Transfer archive from the Claude session, not part of the project.
+logs/sec_patch.tgz

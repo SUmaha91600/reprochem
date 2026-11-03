@@ -34,6 +34,10 @@ CFG["model"]["base_url"] = os.environ.get("REPROCHEM_BASE_URL", CFG["model"]["ba
 CFG["model"]["name"] = os.environ.get("REPROCHEM_MODEL", CFG["model"]["name"])
 _key_env = os.environ.get("REPROCHEM_API_KEY_ENV", CFG["model"].get("api_key_env", "none"))
 CFG["model"]["api_key_env"] = _key_env
+# Chunk size experiment (scripts/mac_chunks.sh): REPROCHEM_MAX_WORDS=400 overrides
+# retrieval.max_words without editing config.yaml.
+if os.environ.get("REPROCHEM_MAX_WORDS"):
+    CFG["retrieval"]["max_words"] = int(os.environ["REPROCHEM_MAX_WORDS"])
 
 client = OpenAI(
     base_url=CFG["model"]["base_url"] if CFG["model"]["base_url"].startswith("http") else "http://localhost:0/v1",
@@ -77,6 +81,10 @@ def _prompt(name: str) -> str:
 SECTION_RE = re.compile(r"^#{1,3}\s+(.+)$", re.M)
 
 
+MAX_CHUNK_CHARS = 8000   # corpus maximum 7,808 (120 papers, 7,610 passages)
+MAX_TITLE_CHARS = 300    # corpus maximum 202
+
+
 def parse(markdown: str, paper_id: str) -> list[Chunk]:
     """Section-based chunking: it beat fixed-size chunks in the 7 Oct lab
     (correct answers 0.88 vs 0.69). A section longer than `max_words` is split
@@ -102,8 +110,12 @@ def parse(markdown: str, paper_id: str) -> list[Chunk]:
         if not words:
             continue
         for j in range(0, len(words), max_w):
-            chunks.append(Chunk(id=f"{paper_id}#{k}", text=f"{t}\n" + " ".join(words[j:j + max_w]),
-                                meta={"paper": paper_id, "section": t}))
+            # C5: a 200-word window can still be huge if one "word" is a 5 MB
+            # blob. Corpus maximum: 7,808 characters, so this cap changes nothing
+            # in normal use and keeps every prompt bounded.
+            chunks.append(Chunk(id=f"{paper_id}#{k}",
+                                text=(f"{t[:MAX_TITLE_CHARS]}\n" + " ".join(words[j:j + max_w]))[:MAX_CHUNK_CHARS],
+                                meta={"paper": paper_id, "section": t[:MAX_TITLE_CHARS]}))
             k += 1
     return chunks
 
@@ -157,10 +169,14 @@ def _mlx_chat(messages: list[dict], c: dict) -> tuple[str, dict]:
     from mlx_lm import generate, load
 
     adapter = os.environ.get("REPROCHEM_ADAPTER", c.get("adapter_path")) or None
-    key = (c["name"], adapter)
+    edit = os.environ.get("REPROCHEM_EDIT") or None   # optional weight edit (app/weight_edit.py)
+    key = (c["name"], adapter, edit)
     if key not in _MLX:
         _MLX.clear()
         _MLX[key] = load(c["name"], adapter_path=adapter)
+        if edit:
+            from .weight_edit import apply
+            apply(_MLX[key][0], edit)
     model, tok = _MLX[key]
     prompt = tok.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
     max_tokens = c.get("max_tokens", 700)
@@ -223,14 +239,32 @@ def _json_block(text: str) -> dict:
         return {}
 
 
+# A setting is a few words ("6-311++G(d,p)", "Gaussian 16 B.01"): 24 characters
+# at most in every report so far. Anything longer is not a setting, it is text
+# the model was pushed to output (a system prompt, a paragraph): NOT_FOUND (A6).
+MAX_VALUE_CHARS = 60
+
+
+def citation_verified(value: str, quote: str, hits) -> bool:
+    """The quote is in the passages the model read, and the value is in the
+    quote. The same checks the evaluation makes, now made on every answer."""
+    passages = _norm_text(" ".join(c.text for c, _ in hits))
+    q = _norm_text(quote)
+    v = re.sub(r"[\s\-()]", "", value.lower())
+    return len(q) >= 10 and q in passages and v in re.sub(r"[\s\-()]", "", q)
+
+
 def parse_field(out: dict, hits, threshold: float) -> Field_:
     value = str(out.get("value", NOT_FOUND)).strip() or NOT_FOUND
+    if len(value) > MAX_VALUE_CHARS:
+        value = NOT_FOUND
     quote = str(out.get("quote", "")).strip()[:400]
     cid = str(out.get("chunk_id", "")).strip()
     best = max((s for _, s in hits), default=0.0)
     citation = None
     if value != NOT_FOUND and len(quote) >= 10 and cid:
-        citation = Citation(chunk_id=cid, quote=quote, score=float(best))
+        citation = Citation(chunk_id=cid, quote=quote, score=float(best),
+                            verified=citation_verified(value, quote, hits))
     return abstain(Field_(value=value, citation=citation), threshold)
 
 

@@ -95,6 +95,11 @@ def main() -> int:
             print(f"[{i}/{len(docs)}] {pid}: no markdown, skipped", file=sys.stderr)
             continue
         md = md_path.read_text(encoding="utf-8", errors="replace")
+        if T.get("anonymize", True):
+            # Nothing personal leaves the machine: authors, affiliations, e-mails,
+            # phones, URLs and titled names are pseudonymised first (app/anonymize.py).
+            from app.anonymize import anonymize
+            md, _ = anonymize(md)
 
         if args.dry:
             chunks = P.parse(md, pid)

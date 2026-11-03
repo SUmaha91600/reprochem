@@ -1,0 +1,8 @@
+{"paper_id": "2505.09606", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "BP86", "chunk_id": "2505.09606#20", "quote": "Geometry optimizations utilized the generalized gradient approximation (GGA) functional BP86 [3, 52] in conjunction with the double- _ζ_ `def2-SVP` basis set [53, 54], mirroring the approach reported for this dataset in the literature [28, 55] to ensure comparability"},
+  "basis":        {"value": "def2-SVP", "chunk_id": "2505.09606#20", "quote": "Geometry optimizations utilized the generalized gradient approximation (GGA) functional BP86 [3, 52] in conjunction with the double- _ζ_ `def2-SVP` basis set [53, 54], mirroring the approach reported for this dataset in the literature [28, 55] to ensure comparability"},
+  "dispersion":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "solvation":    {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "charge":       {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "multiplicity": {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "software":     {"value": "PySCF 2.8.0", "chunk_id": "2505.09606#20", "quote": "For the CEP subset, DFT calculations were performed for the optimization of the geometry and analysis of the electronic structure using the restricted Kohn-Sham method within the `PySCF` software package (version 2.8.0) [51] in gas phase."}}}

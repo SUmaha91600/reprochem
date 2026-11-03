@@ -1,0 +1,8 @@
+{"paper_id": "2604.17536", "teacher": "claude-fable (Cowork session)", "fields": {
+  "functional":   {"value": "ωB97X-D", "chunk_id": "2604.17536#9", "quote": "TAll electronic structure calculations were performed using the ωB97X-D range-separated hybrid functional Chai & Head-Gordon (2008) in conjunction with the def2-TZVP basis set Weigend & Ahlrichs (2005)."},
+  "basis":        {"value": "def2-TZVP", "chunk_id": "2604.17536#9", "quote": "TAll electronic structure calculations were performed using the ωB97X-D range-separated hybrid functional Chai & Head-Gordon (2008) in conjunction with the def2-TZVP basis set Weigend & Ahlrichs (2005)."},
+  "dispersion":   {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "solvation":    {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "charge":       {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "multiplicity": {"value": "NOT_FOUND", "chunk_id": "", "quote": ""},
+  "software":     {"value": "Gaussian 09", "chunk_id": "2604.17536#9", "quote": "All quantum chemical calculations were performed using the Gaussian 09 software package Frisch et al. (2013)."}}}

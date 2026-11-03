@@ -1,0 +1,41 @@
+{
+ "paper_id": "2406.02341",
+ "teacher": "claude-fable (Cowork session)",
+ "fields": {
+  "functional": {
+   "value": "B3LYP",
+   "chunk_id": "2406.02341#11",
+   "quote": "These calculations were performed at the DFT level using the B3LYP functional and the 6-31 G(d) basis set, which employ the Gaussian 16 package (B.01 version)."
+  },
+  "basis": {
+   "value": "6-31 G(d)",
+   "chunk_id": "2406.02341#11",
+   "quote": "These calculations were performed at the DFT level using the B3LYP functional and the 6-31 G(d) basis set, which employ the Gaussian 16 package (B.01 version)."
+  },
+  "dispersion": {
+   "value": "BJD3",
+   "chunk_id": "2406.02341#1",
+   "quote": "Ground-state geometry optimizations and frequency calculations of all compounds were performed at the B3LYP/6-31G* level with the BJD3 dispersion correction, while the excited-state single-point calculations were conducted at the ωB97X-D/6-31G* level."
+  },
+  "solvation": {
+   "value": "NOT_FOUND",
+   "chunk_id": "",
+   "quote": ""
+  },
+  "charge": {
+   "value": "NOT_FOUND",
+   "chunk_id": "",
+   "quote": ""
+  },
+  "multiplicity": {
+   "value": "NOT_FOUND",
+   "chunk_id": "",
+   "quote": ""
+  },
+  "software": {
+   "value": "Gaussian 16 B.01",
+   "chunk_id": "2406.02341#11",
+   "quote": "These calculations were performed at the DFT level using the B3LYP functional and the 6-31 G(d) basis set, which employ the Gaussian 16 package (B.01 version)."
+  }
+ }
+}

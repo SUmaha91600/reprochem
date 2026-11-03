@@ -216,7 +216,9 @@ def main() -> None:
         "quotes_not_in_paper": fake_quotes,
         "failed": failed,
         "config": cfg,
-        "per_paper": [{"paper_id": t["paper_id"], "fields": r} for t, r in results],
+        "per_paper": [{"paper_id": t["paper_id"], "seconds": sec, "fields": r}
+                      for (t, r), sec in zip(results, seconds)],
+        "max_words": int(os.environ.get("REPROCHEM_MAX_WORDS") or cfg["retrieval"]["max_words"]),
     }
     json.dump(report, open(out_path, "w"), indent=2, ensure_ascii=False)
     print(json.dumps({k: v for k, v in report.items()

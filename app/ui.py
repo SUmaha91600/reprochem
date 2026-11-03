@@ -16,6 +16,7 @@ from pathlib import Path
 import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from app.guardrails import md_escape  # noqa: E402
 from app.pipeline import CFG, answer  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -78,11 +79,13 @@ if go and text:
         if sv == "NOT_FOUND":
             c2.markdown(":red[NOT_FOUND]")
         else:
-            c2.markdown(f"**{sv}**")
+            c2.markdown(f"**{md_escape(sv)}**")
             if s.get("citation"):
-                c2.caption("« " + s["citation"]["quote"][:220] + " »")
+                c2.caption("« " + md_escape(s["citation"]["quote"][:220]) + " »")
+                if s["citation"].get("verified") is False:
+                    c2.caption(":orange[⚠ quote not found in the passages: check by hand]")
         mark = "" if tv == "—" else (" ✓" if norm(tv) == norm(sv) else " ✗")
-        c3.markdown(f"{tv}{mark}")
+        c3.markdown(f"{md_escape(tv)}{mark}")
         if gv != "—":
             c4.markdown(f"{gv}" + (" ✓" if norm(gv) == norm(sv) else " ✗"))
         else:
