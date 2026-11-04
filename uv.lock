@@ -576,6 +576,21 @@ wheels = [
 ]
 
 [[package]]
+name = "geometric"
+version = "1.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "networkx", version = "3.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "networkx", version = "3.7", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "six" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4d/57/f53eb30c38aa4eeabddc3bddf283f4c10616de65d95fcd1f43900721f425/geometric-1.1.1.tar.gz", hash = "sha256:c712c4102bb9db4afab4c7a482289a13d04989735cc1430c89ebb73d587d1d8b", size = 392235, upload-time = "2026-05-18T18:41:37.236Z" }
+
+[[package]]
 name = "griffelib"
 version = "2.4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1875,6 +1890,18 @@ wheels = [
 ]
 
 [[package]]
+name = "pyscf-dispersion"
+version = "1.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyscf" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0a/9b/9053d2a5a6276352b883d57192ce0bed68b1bc2415b35824ea6942c2c999/pyscf_dispersion-1.5.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0b246142cadc752c54700564e15dadb22c006be51ac946601c59ddca21235067", size = 6469239, upload-time = "2026-02-14T20:11:11.671Z" },
+    { url = "https://files.pythonhosted.org/packages/40/2f/10a2e9ad81bd5c2479a255d18c4f02c734a3a21bf4b36a236ba615919592/pyscf_dispersion-1.5.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c65aa46f24005794bf8198205a0d83f3431a23333868fbafff43bd82efc2294d", size = 12729963, upload-time = "2026-02-14T19:41:15.234Z" },
+]
+
+[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 source = { registry = "https://pypi.org/simple" }
@@ -2067,15 +2094,19 @@ dependencies = [
 
 [package.optional-dependencies]
 chem = [
+    { name = "geometric" },
     { name = "pyscf" },
+    { name = "pyscf-dispersion" },
     { name = "rdkit" },
 ]
 convert = [
     { name = "pymupdf4llm" },
 ]
 full = [
+    { name = "geometric" },
     { name = "pymupdf4llm" },
     { name = "pyscf" },
+    { name = "pyscf-dispersion" },
     { name = "rdkit" },
     { name = "sentence-transformers" },
 ]
@@ -2093,12 +2124,14 @@ train = [
 [package.metadata]
 requires-dist = [
     { name = "fastmcp", specifier = ">=4.1.6" },
+    { name = "geometric", marker = "extra == 'chem'", specifier = "==1.1.1" },
     { name = "mlx-lm", marker = "sys_platform == 'darwin' and extra == 'train'", specifier = ">=0.29.1" },
     { name = "openai", specifier = "==3.26.0" },
     { name = "openpyxl", specifier = ">=3.1.5" },
     { name = "pydantic", specifier = "==2.13.5" },
     { name = "pymupdf4llm", marker = "extra == 'convert'", specifier = "==1.28.2" },
     { name = "pyscf", marker = "extra == 'chem'", specifier = "==2.14.0" },
+    { name = "pyscf-dispersion", marker = "extra == 'chem'", specifier = "==1.5.0" },
     { name = "python-dotenv", specifier = "==1.2.4" },
     { name = "pyyaml", specifier = "==6.0.3" },
     { name = "rdkit", marker = "extra == 'chem'", specifier = "==2026.3.6" },
