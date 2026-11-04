@@ -1,4 +1,4 @@
-"""ReproChem MCP server: the three agent tools of app/tool_schemas.py over MCP.
+"""ReproChem MCP server (FastMCP): the three agent tools of app/tool_schemas.py over MCP.
 
     uv run python server.py                 # stdio (what an MCP client launches)
     uv run python server.py --http          # Streamable HTTP on http://127.0.0.1:8765/mcp
@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 from typing import Annotated, Literal
 
-from mcp.server.mcpserver import MCPServer
+from fastmcp import FastMCP
 from mcp_types import ToolAnnotations
 from pydantic import Field
 
@@ -43,7 +43,7 @@ ACCESS = {t["name"]: t["access"] for t in TOOLS}
 Markdown = Annotated[str, Field(min_length=1, description="Document content in Markdown.")]
 PaperId = Annotated[str, Field(min_length=1, description="Document identifier.")]
 
-mcp = MCPServer(
+mcp = FastMCP(
     name="reprochem",
     instructions=(
         "ReproChem turns a published computational chemistry protocol into a "
@@ -99,6 +99,6 @@ def compile_and_validate_job(
 
 if __name__ == "__main__":
     if "--http" in sys.argv:
-        mcp.run(transport="streamable-http", host="127.0.0.1", port=8765)
+        mcp.run(transport="http", host="127.0.0.1", port=8765)
     else:
         mcp.run()
