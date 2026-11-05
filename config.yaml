@@ -28,6 +28,18 @@ model:
   # reasoning_effort. Set to false to compare with reasoning enabled.
   disable_thinking: true
 
+# S4 agent (agentic/S4_strategy_memory/agent.py): the model that reviews the
+# card and writes lessons. It is not the extraction model above, which runs
+# inside the MCP tool. REPROCHEM_AGENT_BASE_URL / _MODEL / _API_KEY_ENV override it.
+agent:
+  base_url: https://api.groq.com/openai/v1
+  name: openai/gpt-oss-120b
+  api_key_env: GROQ_API_KEY
+  temperature: 0
+  max_tokens: 3000          # gpt-oss reasons before it answers
+  max_attempts: 3           # compile attempts per request
+  max_lessons: 20           # per section of lessons.md
+
 prompts:
   extract: prompts/extract_v2.txt   # v2: geometry step, value copied verbatim
   compile: prompts/compile_v2.txt   # v2: converts the paper's notation to canonical form
