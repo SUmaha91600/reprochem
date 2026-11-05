@@ -39,6 +39,10 @@ full = ["reprochem[convert,rerank,chem]"]
 train = [
     "mlx-lm>=0.29.1 ; sys_platform == 'darwin'",
 ]
+agents = [
+    "langchain-openai>=1.7.4",
+    "langgraph>=1.2.20",
+]
 
 # Pas de [build-system] : uv traite le dépôt comme un projet « virtuel ». Il gère
 # l'environnement et les dépendances sans installer le code, qui reste importé
